@@ -1,6 +1,7 @@
 import {useEffect} from 'react';
 import {Route, Routes, useLocation} from 'react-router-dom';
 import Login from '../views/Login';
+import NotFound from '../views/NotFound';
 import {EPath} from '../enums/EPath';
 import {useAppSelector} from '../redux/hooks';
 import {selectUser} from '../redux/userSlice';
@@ -18,6 +19,7 @@ interface IRoute {
 const publicRoutes: IRoute[] = [
   {[ERoute.Path]: EPath.Login, [ERoute.Component]: Login},
   {[ERoute.Path]: EPath.Signup, [ERoute.Component]: Login},
+  {[ERoute.Path]: EPath.NotFound, [ERoute.Component]: NotFound},
 ];
 
 const authRoutes: IRoute[] = [];
