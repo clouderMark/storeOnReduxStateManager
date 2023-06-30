@@ -48,11 +48,11 @@ const Login = () => {
 
   useEffect(() => {
     if (isLoginSuccess) {
-      dispatch(login({data: loginData}));
+      dispatch(login({token: loginData!.token}));
     }
 
     if (isRegisterSuccess) {
-      dispatch(login({data: signupData}));
+      dispatch(login({token: signupData!.token}));
     }
   }, [isLoginSuccess, isRegisterSuccess]);
 

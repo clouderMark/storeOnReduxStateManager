@@ -26,8 +26,8 @@ export const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    login: (state, action: PayloadAction<{data: {token: string}}>) => {
-      const {token} = action.payload.data;
+    login: (state, action: PayloadAction<{token: string}>) => {
+      const {token} = action.payload;
 
       const user = jwtDecode(token) as IRegistration;
 
