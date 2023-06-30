@@ -1,11 +1,5 @@
 import {createApi, fetchBaseQuery, BaseQueryFn, FetchArgs} from '@reduxjs/toolkit/query/react';
-
-interface ICustomError {
-  data: {
-    message: string;
-  };
-  status: number;
-}
+import {ICustomError} from '../interfaces/interfaces';
 
 const BASE_URL = process.env.REACT_APP_API_URL;
 
