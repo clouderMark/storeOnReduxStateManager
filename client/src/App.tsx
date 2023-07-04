@@ -24,28 +24,28 @@ const App = () => {
   }, [token]);
 
   useEffect(() => {
+    fetchBasket();
+  }, []);
+
+  useEffect(() => {
     if (isCheckUserSuccess) {
       dispatch(login({token: checkUserData!.token}));
-      if (isBasketSuccess && loading) setLoading(false);
+      if (isBasketSuccess && isBasketSuccess) setLoading(false);
     }
   }, [isCheckUserSuccess]);
+
+  useEffect(() => {
+    if (isBasketSuccess) {
+      dispatch(setProds(basketData!.products));
+      if (isBasketSuccess && isBasketSuccess) setLoading(false);
+    }
+  }, [isBasketSuccess]);
 
   useEffect(() => {
     if (isCheckUserError) {
       dispatch(logout());
     }
   }, [isCheckUserError]);
-
-  useEffect(() => {
-    fetchBasket();
-  }, []);
-
-  useEffect(() => {
-    if (isBasketSuccess) {
-      dispatch(setProds(basketData!.products));
-      if (isCheckUserSuccess && loading) setLoading(false);
-    }
-  }, [isBasketSuccess]);
 
   if (loading) {
     return <Loader />;
