@@ -10,7 +10,7 @@ export const basketApi = createApi({
     credentials: 'include',
   }) as BaseQueryFn<string | FetchArgs, unknown, ICustomError, {}>,
   endpoints: (builder) => ({
-    fetchBasket: builder.mutation<IBasket, void>({
+    getBasket: builder.query<IBasket, void>({
       query: () => ({
         url: '/getone',
         method: 'GET',
@@ -40,7 +40,7 @@ export const basketApi = createApi({
         method: 'PUT',
       }),
     }),
-    clearBasket: builder.mutation<IBasket, void>({
+    clearBasket: builder.query<IBasket, void>({
       query: () => ({
         url: '/product/clear',
         method: 'PUT',
@@ -50,10 +50,10 @@ export const basketApi = createApi({
 });
 
 export const {
-  useFetchBasketMutation,
+  useGetBasketQuery,
   useAppendInBasketMutation,
   useIncrementInBasketMutation,
   useDecrementInBasketMutation,
   useRemoveInBasketMutation,
-  useClearBasketMutation,
+  useClearBasketQuery,
 } = basketApi;
