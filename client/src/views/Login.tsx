@@ -5,7 +5,6 @@ import {EPath} from '../enums/EPath';
 import {useAppDispatch, useAppSelector} from '../redux/hooks';
 import {login, selectUser} from '../redux/userSlice';
 import {useLoginUserMutation, useSignupUserMutation} from '../redux/userApi';
-import AlertLine from '../components/AlertLine/AlertLine';
 import {handleAlert} from '../redux/alertSlice';
 
 const Login = () => {
@@ -78,7 +77,6 @@ const Login = () => {
           </Box>
         </Card>
       </Container>
-      <AlertLine />
     </>
   );
 };

@@ -8,6 +8,7 @@ import {login, logout, getToken, selectUser} from './redux/userSlice';
 import {useGetBasketQuery} from './redux/basketApi';
 import {setProds} from './redux/basketSlice';
 import Loader from './components/LinearDeterminate';
+import AlertLine from './components/AlertLine/AlertLine';
 
 const App = () => {
   const [loading, setLoading] = useState(true);
@@ -55,6 +56,7 @@ const App = () => {
     <BrowserRouter>
       <CssBaseline />
       <AppRouter />
+      <AlertLine />
     </BrowserRouter>
   );
 };
