@@ -3,8 +3,8 @@ import {useEffect, useState} from 'react';
 import {BrowserRouter} from 'react-router-dom';
 import AppRouter from './components/AppRouter';
 import {useCheckUserMutation} from './redux/userApi';
-import {useAppDispatch} from './redux/hooks';
-import {login, logout} from './redux/userSlice';
+import {useAppDispatch, useAppSelector} from './redux/hooks';
+import {login, logout, getToken, selectUser} from './redux/userSlice';
 import {useFetchBasketMutation} from './redux/basketApi';
 import {setProds} from './redux/basketSlice';
 import Loader from './components/LinearDeterminate';
@@ -15,7 +15,7 @@ const App = () => {
   const [checkUser, {data: checkUserData, isSuccess: isCheckUserSuccess, isError: isCheckUserError}] =
     useCheckUserMutation();
   const [fetchBasket, {data: basketData, isSuccess: isBasketSuccess}] = useFetchBasketMutation();
-  const token = localStorage.getItem('token');
+  const {token} = useAppSelector(selectUser);
 
   useEffect(() => {
     if (token) {
@@ -25,6 +25,7 @@ const App = () => {
 
   useEffect(() => {
     fetchBasket();
+    dispatch(getToken());
   }, []);
 
   useEffect(() => {

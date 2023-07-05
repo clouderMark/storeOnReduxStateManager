@@ -34,7 +34,7 @@ export const userApi = createApi({
       }),
     }),
     checkUser: builder.mutation<IUser, string>({
-      query: (token: string) => ({
+      query: (token) => ({
         url: '/check',
         method: 'GET',
         headers: {authorization: `Bearer ${token}`},

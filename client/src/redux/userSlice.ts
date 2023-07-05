@@ -7,6 +7,7 @@ interface IInitialState {
   email: string | null;
   isAuth: boolean;
   isAdmin: boolean;
+  token: null | string;
 }
 
 interface IRegistration {
@@ -20,6 +21,7 @@ const initialState: IInitialState = {
   email: null,
   isAuth: false,
   isAdmin: false,
+  token: null,
 };
 
 export const userSlice = createSlice({
@@ -37,14 +39,20 @@ export const userSlice = createSlice({
       state.email = user.email;
       state.isAuth = true;
       state.isAdmin = user.role === 'ADMIN';
+      state.token = token;
     },
     logout: () => {
       localStorage.removeItem('token');
 
       return initialState;
     },
+    getToken: (state) => {
+      const token = localStorage.getItem('token');
+
+      state.token = token;
+    },
   },
 });
 
 export const selectUser = (state: RootState) => state.user;
-export const {login, logout} = userSlice.actions;
+export const {login, logout, getToken} = userSlice.actions;
