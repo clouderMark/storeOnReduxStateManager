@@ -9,6 +9,7 @@ import {useGetBasketQuery} from './redux/basketApi';
 import {setProds} from './redux/basketSlice';
 import Loader from './components/LinearDeterminate';
 import AlertLine from './components/AlertLine/AlertLine';
+import NavBar from './components/NavBar/NavBar';
 
 const App = () => {
   const [loading, setLoading] = useState(true);
@@ -55,6 +56,7 @@ const App = () => {
   return (
     <BrowserRouter>
       <CssBaseline />
+      <NavBar />
       <AppRouter />
       <AlertLine />
     </BrowserRouter>
