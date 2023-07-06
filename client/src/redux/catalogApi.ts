@@ -28,13 +28,13 @@ export const catalogApi = createApi({
         return req;
       },
     }),
-    getIndustries: builder.query<IAreaResponse, void>({
+    getIndustries: builder.query<IAreaResponse[], void>({
       query: () => ({
         url: '/getall',
         method: 'GET',
       }),
     }),
-    getSubIndustries: builder.query<IAreaResponse, void>({
+    getSubIndustries: builder.query<IAreaResponse[], void>({
       query: () => ({
         url: '/getall',
         method: 'GET',
