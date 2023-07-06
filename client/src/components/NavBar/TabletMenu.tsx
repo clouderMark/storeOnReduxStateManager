@@ -10,7 +10,7 @@ import {tabletMenu} from './styles/tabletMenu';
 import {IconTextField} from '../IconTextField';
 import {IArticle} from './types';
 import {EPath} from '../../enums/EPath';
-import {useGetIndustriesQuery, useGetSubIndustriesQuery} from '../../redux/catalogApi';
+import {useGetIndustriesQuery, useGetSolutionsQuery} from '../../redux/catalogApi';
 
 const TabletMenu = () => {
   const navigate = useNavigate();
@@ -18,7 +18,7 @@ const TabletMenu = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [open, setOpen] = useState<{[key: string]: boolean}>({});
   const {data: industriesData, isSuccess: successIndustries} = useGetIndustriesQuery();
-  const {data: subIndustriesData, isSuccess: successSubIndustries} = useGetSubIndustriesQuery();
+  const {data: solutionsData, isSuccess: successSolutions} = useGetSolutionsQuery();
 
   const handleOpenMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -47,12 +47,12 @@ const TabletMenu = () => {
             ...industriesData.map((el) => ({link: `${item.link}/${el.id}`, content: el.name})),
           ],
         };
-      } else if (item?.link === EPath.Solutions && successSubIndustries) {
+      } else if (item?.link === EPath.Solutions && successSolutions) {
         result = {
           ...item,
           list: [
             {link: item.link, content: item.title},
-            ...subIndustriesData.map((el) => ({link: `${item.link}/${el.id}`, content: el.name})),
+            ...solutionsData.map((el) => ({link: `${item.link}/${el.id}`, content: el.name})),
           ],
         };
       } else {
