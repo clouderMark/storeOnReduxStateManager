@@ -1,5 +1,9 @@
-import {useEffect} from 'react';
-import {Route, Routes, useLocation} from 'react-router-dom';
+// import {useEffect} from 'react';
+import {
+  Route,
+  Routes,
+  //  useLocation
+} from 'react-router-dom';
 import Login from '../views/Login';
 import NotFound from '../views/NotFound';
 import {EPath} from '../enums/EPath';
@@ -28,11 +32,11 @@ const adminRoutes: IRoute[] = [];
 
 const AppRouter = () => {
   const {isAuth, isAdmin} = useAppSelector(selectUser);
-  const location = useLocation();
+  // const location = useLocation();
 
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [location]);
+  // useEffect(() => {
+  //   window.scrollTo(0, 0);
+  // }, [location]);
 
   return (
     <Routes>
