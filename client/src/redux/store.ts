@@ -2,6 +2,7 @@ import {configureStore} from '@reduxjs/toolkit';
 import {userApi} from './userApi';
 import {userSlice} from './userSlice';
 import {alertSlice} from './alertSlice';
+import {loaderSlice} from './loaderSlice';
 import {basketApi} from './basketApi';
 import {basketSlice} from './basketSlice';
 import {catalogSlice} from './catalogSlice';
@@ -16,6 +17,7 @@ export const store = configureStore({
     catalog: catalogSlice.reducer,
     [catalogApi.reducerPath]: catalogApi.reducer,
     alert: alertSlice.reducer,
+    loader: loaderSlice.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(userApi.middleware).concat(basketApi.middleware).concat(catalogApi.middleware),
