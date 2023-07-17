@@ -95,3 +95,13 @@ export interface IAllProducts {
 export interface IData<T> {
   data: T;
 }
+
+interface IIdName extends IId {
+  name: string;
+}
+
+export interface INavigation {
+  industries: IIdName[];
+  subIndustries: IIdName[];
+  solutions: IIdName[];
+}

@@ -1,5 +1,5 @@
 import {createApi, fetchBaseQuery, BaseQueryFn, FetchArgs} from '@reduxjs/toolkit/query/react';
-import {ICustomError, IAreaResponse, IIdAndName, IAllProducts} from '../interfaces/interfaces';
+import {ICustomError, IAreaResponse, IIdAndName, IAllProducts, INavigation} from '../interfaces/interfaces';
 
 interface IData {
   body: FormData;
@@ -23,6 +23,12 @@ export const catalogApi = createApi({
     credentials: 'include',
   }) as BaseQueryFn<string | FetchArgs, unknown, ICustomError, {}>,
   endpoints: (builder) => ({
+    getNavigation: builder.query<INavigation, void>({
+      query: () => ({
+        url: 'navigation/getall',
+        method: 'GET',
+      }),
+    }),
     createIndustry: builder.query<IAreaResponse, IData>({
       query: (data) => {
         const req: FetchArgs = {
@@ -85,6 +91,7 @@ export const catalogApi = createApi({
 });
 
 export const {
+  useGetNavigationQuery,
   useCreateIndustryQuery,
   useGetIndustriesQuery,
   useGetSubIndustriesQuery,

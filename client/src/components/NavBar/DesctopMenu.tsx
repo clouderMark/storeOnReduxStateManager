@@ -9,14 +9,13 @@ import {alignC, dFlex, justifySB} from '../../styles/flex';
 import {articles} from './articles';
 import {IconTextField} from '../IconTextField';
 import {EPath} from '../../enums/EPath';
-import {useGetIndustriesQuery, useGetSolutionsQuery} from '../../redux/catalogApi';
+import {useGetNavigationQuery} from '../../redux/catalogApi';
 
 const DesctopMenu = () => {
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [item, setItem] = useState<IArticle>();
-  const {data: industriesData, isSuccess: successIndustries} = useGetIndustriesQuery();
-  const {data: solutionsData, isSuccess: successSolutions} = useGetSolutionsQuery();
+  const {data, isSuccess} = useGetNavigationQuery();
 
   const handleCloseMenu = () => {
     setAnchorEl(null);
@@ -29,20 +28,20 @@ const DesctopMenu = () => {
       const item = articles.find((el) => el.link === element);
       let result: IArticle;
 
-      if (item?.link === EPath.Industries && successIndustries) {
+      if (item?.link === EPath.Industries && isSuccess) {
         result = {
           ...item,
           list: [
             {link: item.link, content: item.title},
-            ...industriesData.map((el) => ({link: `${el.id}`, content: el.name})),
+            ...data.industries.map((el) => ({link: `${el.id}`, content: el.name})),
           ],
         };
-      } else if (item?.link === EPath.Solutions && successSolutions) {
+      } else if (item?.link === EPath.Solutions && isSuccess) {
         result = {
           ...item,
           list: [
             {link: item.link, content: item.title},
-            ...solutionsData.map((el) => ({link: `${el.id}`, content: el.name})),
+            ...data.solutions.map((el) => ({link: `${el.id}`, content: el.name})),
           ],
         };
       } else {

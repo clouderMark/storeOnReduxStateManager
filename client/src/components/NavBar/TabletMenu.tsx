@@ -10,15 +10,14 @@ import {tabletMenu} from './styles/tabletMenu';
 import {IconTextField} from '../IconTextField';
 import {IArticle} from './types';
 import {EPath} from '../../enums/EPath';
-import {useGetIndustriesQuery, useGetSolutionsQuery} from '../../redux/catalogApi';
+import {useGetNavigationQuery} from '../../redux/catalogApi';
 
 const TabletMenu = () => {
   const navigate = useNavigate();
   const [item, setItem] = useState<IArticle>();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [open, setOpen] = useState<{[key: string]: boolean}>({});
-  const {data: industriesData, isSuccess: successIndustries} = useGetIndustriesQuery();
-  const {data: solutionsData, isSuccess: successSolutions} = useGetSolutionsQuery();
+  const {data, isSuccess} = useGetNavigationQuery();
 
   const handleOpenMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -39,20 +38,20 @@ const TabletMenu = () => {
       const item = articles.find((el) => el.link === Object.keys(open)[0]);
       let result: IArticle;
 
-      if (item?.link === EPath.Industries && successIndustries) {
+      if (item?.link === EPath.Industries && isSuccess) {
         result = {
           ...item,
           list: [
             {link: item.link, content: item.title},
-            ...industriesData.map((el) => ({link: `${item.link}/${el.id}`, content: el.name})),
+            ...data.industries.map((el) => ({link: `${item.link}/${el.id}`, content: el.name})),
           ],
         };
-      } else if (item?.link === EPath.Solutions && successSolutions) {
+      } else if (item?.link === EPath.Solutions && isSuccess) {
         result = {
           ...item,
           list: [
             {link: item.link, content: item.title},
-            ...solutionsData.map((el) => ({link: `${item.link}/${el.id}`, content: el.name})),
+            ...data.solutions.map((el) => ({link: `${item.link}/${el.id}`, content: el.name})),
           ],
         };
       } else {
