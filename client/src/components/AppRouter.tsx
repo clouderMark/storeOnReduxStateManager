@@ -6,6 +6,7 @@ import {
 } from 'react-router-dom';
 import Login from '../views/Login';
 import NotFound from '../views/NotFound';
+import Admin from '../views/forAdmin/Admin/Admin';
 import {EPath} from '../enums/EPath';
 import {useAppSelector} from '../redux/hooks';
 import {selectUser} from '../redux/userSlice';
@@ -28,7 +29,9 @@ const publicRoutes: IRoute[] = [
 
 const authRoutes: IRoute[] = [];
 
-const adminRoutes: IRoute[] = [];
+const adminRoutes: IRoute[] = [
+  {[ERoute.Path]: EPath.Admin, [ERoute.Component]: Admin},
+];
 
 const AppRouter = () => {
   const {isAuth, isAdmin} = useAppSelector(selectUser);
