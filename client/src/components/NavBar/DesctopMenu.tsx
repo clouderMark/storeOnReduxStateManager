@@ -5,7 +5,7 @@ import ArrowForwardIosOutlinedIcon from '@mui/icons-material/ArrowForwardIosOutl
 import {useEffect, useState} from 'react';
 import {desctopMenu as styles} from './styles/desctopMenu';
 import {IArticle} from './types';
-import {alignC, dFlex, justifySB} from './styles/flex';
+import {alignC, dFlex, justifySB} from '../../styles/flex';
 import {articles} from './articles';
 import {IconTextField} from '../IconTextField';
 import {EPath} from '../../enums/EPath';

@@ -15,7 +15,7 @@ import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import AnchorIcon from '@mui/icons-material/Anchor';
 import logoStyles from './styles/logo.module.css';
-import {dFlex, justifySB, alignC} from './styles/flex';
+import {dFlex, justifySB, alignC} from '../../styles/flex';
 import {ReactComponent as Icon} from '../../image/Logo.svg';
 import {StyledBadge} from './StyledBadge';
 import NavBarButton from './NavBarButton';
