@@ -11,6 +11,7 @@ import Loader from './components/Loader';
 import AlertLine from './components/AlertLine/AlertLine';
 import NavBar from './components/NavBar/NavBar';
 import {closeLoader, showLoader} from './redux/loaderSlice';
+import Breadcrumbs from './components/Breadcrumbs/Breadcrumbs';
 
 const App = () => {
   const dispatch = useAppDispatch();
@@ -55,6 +56,7 @@ const App = () => {
       <CssBaseline />
       <Loader />
       <NavBar />
+      <Breadcrumbs />
       <AppRouter />
       <AlertLine />
     </BrowserRouter>

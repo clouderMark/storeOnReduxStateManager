@@ -4,7 +4,7 @@ import {Typography, Breadcrumbs} from '@mui/material';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import LinkRouter from './LinkRouter';
 import {styles} from './styles/styles';
-import getName from './getName';
+import Name from './Name';
 
 const Page = () => {
   const location = useLocation();
@@ -21,11 +21,11 @@ const Page = () => {
 
         return last ? (
           <Typography key={to} sx={styles.last}>
-            {getName(to)}
+            <Name name={to} />
           </Typography>
         ) : (
           <LinkRouter underline="hover" sx={styles.notLast} to={to} key={to}>
-            {getName(to)}
+            <Name name={to} />
           </LinkRouter>
         );
       })}

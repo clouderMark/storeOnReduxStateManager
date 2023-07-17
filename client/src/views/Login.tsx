@@ -6,7 +6,6 @@ import {useAppDispatch, useAppSelector} from '../redux/hooks';
 import {login, selectUser} from '../redux/userSlice';
 import {useLoginUserMutation, useSignupUserMutation} from '../redux/userApi';
 import {handleAlert} from '../redux/alertSlice';
-import Breadcrumbs from '../components/Breadcrumbs/Breadcrumbs';
 
 const Login = () => {
   const {isAuth, isAdmin} = useAppSelector(selectUser);
@@ -58,7 +57,6 @@ const Login = () => {
 
   return (
     <>
-      <Breadcrumbs />
       <Container sx={{display: 'flex', justifyContent: 'center'}}>
         <Card style={{width: '50%'}} sx={{p: 5, mb: 15}}>
           <Typography component="h3" sx={{mt: 'auto'}}>
