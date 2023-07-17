@@ -1,9 +1,17 @@
 import {createApi, fetchBaseQuery, BaseQueryFn, FetchArgs} from '@reduxjs/toolkit/query/react';
-import {ICustomError, IAreaResponse, IIdAndName} from '../interfaces/interfaces';
+import {ICustomError, IAreaResponse, IIdAndName, IAllProducts} from '../interfaces/interfaces';
 
 interface IData {
   body: FormData;
   token?: string;
+}
+
+interface IReqProds {
+  industryId: number[] | null;
+  solutionId: number[] | null;
+  areaId: number[] | null;
+  page: number;
+  limit: number;
 }
 
 const BASE_URL = process.env.REACT_APP_API_URL;
@@ -46,8 +54,41 @@ export const catalogApi = createApi({
         method: 'GET',
       }),
     }),
+    getAreas: builder.query<IIdAndName[], void>({
+      query: () => ({
+        url: '/area/getall',
+        method: 'GET',
+      }),
+    }),
+    getAllProds: builder.query<IAllProducts, IReqProds>({
+      query: (data) => {
+        const {industryId, solutionId, areaId, page, limit} = data;
+        let url = '/product/getall';
+
+        // фильтр товаров по индустриям и/или решению
+        if (industryId) url = `${url}/industryId/${industryId}`;
+        if (solutionId) url = `${url}/solutionId/${solutionId}`;
+        if (areaId) url = `${url}/$areaId/${areaId}`;
+
+        return {
+          url,
+          method: 'GET',
+          params: {
+            // GET-параметры для постраничной навигации
+            page,
+            limit,
+          },
+        };
+      },
+    }),
   }),
 });
 
-export const {useCreateIndustryQuery, useGetIndustriesQuery, useGetSubIndustriesQuery, useGetSolutionsQuery} =
-  catalogApi;
+export const {
+  useCreateIndustryQuery,
+  useGetIndustriesQuery,
+  useGetSubIndustriesQuery,
+  useGetSolutionsQuery,
+  useGetAreasQuery,
+  useGetAllProdsQuery,
+} = catalogApi;

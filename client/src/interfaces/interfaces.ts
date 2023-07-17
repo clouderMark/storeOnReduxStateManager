@@ -82,3 +82,16 @@ export interface IProduct extends IIdAndName {
   article: number;
   weight: number;
 }
+
+export interface IObject {
+  [key: string]: string;
+}
+
+export interface IAllProducts {
+  count: number;
+  rows: IProductWithProps[];
+}
+
+export interface IData<T> {
+  data: T;
+}
