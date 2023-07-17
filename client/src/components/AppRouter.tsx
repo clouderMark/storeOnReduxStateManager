@@ -4,12 +4,13 @@ import {
   Routes,
   //  useLocation
 } from 'react-router-dom';
-import Login from '../views/Login';
-import NotFound from '../views/NotFound';
-import Admin from '../views/forAdmin/Admin/Admin';
 import {EPath} from '../enums/EPath';
 import {useAppSelector} from '../redux/hooks';
 import {selectUser} from '../redux/userSlice';
+import Login from '../views/Login';
+import NotFound from '../views/NotFound';
+import Admin from '../views/forAdmin/Admin/Admin';
+import User from '../views/User';
 
 enum ERoute {
   Path = 'path',
@@ -27,7 +28,9 @@ const publicRoutes: IRoute[] = [
   {[ERoute.Path]: EPath.NotFound, [ERoute.Component]: NotFound},
 ];
 
-const authRoutes: IRoute[] = [];
+const authRoutes: IRoute[] = [
+  {[ERoute.Path]: EPath.User, [ERoute.Component]: User},
+];
 
 const adminRoutes: IRoute[] = [
   {[ERoute.Path]: EPath.Admin, [ERoute.Component]: Admin},
