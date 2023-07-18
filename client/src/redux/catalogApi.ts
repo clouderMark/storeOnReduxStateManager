@@ -1,5 +1,5 @@
 import {createApi, fetchBaseQuery, BaseQueryFn, FetchArgs} from '@reduxjs/toolkit/query/react';
-import {ICustomError, IAreaResponse, IIdAndName, IAllProducts, INavigation} from '../interfaces/interfaces';
+import {ICustomError, IAreaResponse, IIdAndName, IAllProducts, INavigation, ISubscribe} from '../interfaces/interfaces';
 
 interface IData {
   body: FormData;
@@ -87,6 +87,20 @@ export const catalogApi = createApi({
         };
       },
     }),
+    adminGetAllSubscriptions: builder.mutation<ISubscribe[], string>({
+      query: (token) => ({
+        url: 'subscription/admin/getall',
+        method: 'GET',
+        headers: {authorization: `Bearer ${token}`},
+      }),
+    }),
+    adminDeleteSubscription: builder.mutation<ISubscribe, {token: string, id: number}>({
+      query: (data) => ({
+        url: `subscription/admin/delete/${data.id}`,
+        method: 'DELETE',
+        headers: {authorization: `Bearer ${data.token}`},
+      }),
+    }),
   }),
 });
 
@@ -98,4 +112,6 @@ export const {
   useGetSolutionsQuery,
   useGetAreasQuery,
   useGetAllProdsQuery,
+  useAdminGetAllSubscriptionsMutation,
+  useAdminDeleteSubscriptionMutation,
 } = catalogApi;

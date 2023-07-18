@@ -105,3 +105,9 @@ export interface INavigation {
   subIndustries: IIdName[];
   solutions: IIdName[];
 }
+
+export interface ISubscribe extends IId {
+  createdAt: string;
+  email: string;
+  updatedAt: string;
+}
