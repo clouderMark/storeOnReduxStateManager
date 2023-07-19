@@ -7,7 +7,7 @@ import {Board} from '../../components/Board';
 import {ISubscribe} from '../../interfaces/interfaces';
 import TableCells from '../../components/TableCells/TableCells';
 import {adminSubscriptionCells} from '../../components/TableCells/cells';
-import {handleAlert} from '../../redux/alertSlice';
+import {showAlert} from '../../redux/alertSlice';
 import {closeLoader, showLoader} from '../../redux/loaderSlice';
 
 const AdminSubscription = () => {
@@ -28,7 +28,7 @@ const AdminSubscription = () => {
   useEffect(() => {
     if (isDeleteSuccess) {
       setSubscriptions(subscriptions?.filter((el) => el.id !== deleteData!.id));
-      dispatch(handleAlert({message: `Подписчик с email: ${deleteData!.email} удален`, statusCode: 200}));
+      dispatch(showAlert({message: `Подписчик с email: ${deleteData!.email} удален`, statusCode: 200}));
     }
   }, [isDeleteSuccess]);
 

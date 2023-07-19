@@ -5,7 +5,7 @@ import {EPath} from '../enums/EPath';
 import {useAppDispatch, useAppSelector} from '../redux/hooks';
 import {login, selectUser} from '../redux/userSlice';
 import {useLoginUserMutation, useSignupUserMutation} from '../redux/userApi';
-import {handleAlert} from '../redux/alertSlice';
+import {showAlert} from '../redux/alertSlice';
 
 const Login = () => {
   const {isAuth, isAdmin} = useAppSelector(selectUser);
@@ -24,11 +24,11 @@ const Login = () => {
 
   useEffect(() => {
     if (isLoginError && 'data' in loginError!) {
-      dispatch(handleAlert({message: loginError.data.message, statusCode: loginError.status}));
+      dispatch(showAlert({message: loginError.data.message, statusCode: loginError.status}));
     }
 
     if (isRegisterError && 'data' in registerError!) {
-      dispatch(handleAlert({message: registerError.data.message, statusCode: registerError.status}));
+      dispatch(showAlert({message: registerError.data.message, statusCode: registerError.status}));
     }
   }, [isLoginError, isRegisterError]);
 
