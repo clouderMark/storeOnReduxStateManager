@@ -43,6 +43,15 @@ export const editIndustrySlice = createSlice({
     setId: (state, action: PayloadAction<IInitialState[EType.id]>) => {
       state[EType.id] = action.payload;
     },
+    setCardImage: (state, action: PayloadAction<IInitialState[EType.cardImage]>) => {
+      if (action.payload) {
+        state[EType.cardImage] = action.payload;
+        state[EType.cardImageUrl] = URL.createObjectURL(action.payload);
+      }
+    },
+    setName: (state, action: PayloadAction<IInitialState[EType.name]>) => {
+      state[EType.name] = action.payload;
+    },
     setData: (
       state,
       action: PayloadAction<{
@@ -62,4 +71,4 @@ export const editIndustrySlice = createSlice({
 
 export const selectEditIndustry = (state: RootState) => state.editIndustry;
 
-export const {setId, setData, reset} = editIndustrySlice.actions;
+export const {setId, setData, setCardImage, setName, reset} = editIndustrySlice.actions;

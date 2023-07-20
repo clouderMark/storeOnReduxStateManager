@@ -1,15 +1,17 @@
-import {FormEvent, useEffect} from 'react';
+import {ChangeEvent, FormEvent, useEffect} from 'react';
 import {Box, Button, DialogActions} from '@mui/material';
 import {useAppDispatch, useAppSelector} from '../../redux/hooks';
-import {reset, selectEditIndustry, setData} from '../../redux/editIndustrySlice';
+import {reset, selectEditIndustry, setCardImage, setData, setName} from '../../redux/editIndustrySlice';
 import {useCreateIndustryMutation, useGetIndustryMutation, useUpdateIndystryMutation} from '../../redux/catalogApi';
 import DialogWithTitle from '../DialogWithTitle';
-import {setShow} from '../../redux/dialogWithTitleSlice';
+import {selectDialogWithTitle, setShow} from '../../redux/dialogWithTitleSlice';
 import {selectUser} from '../../redux/userSlice';
+import CardImageWithTextInput from '../CardInputImage/CardImageWithTextInput';
 
 const EditIndustry = () => {
+  const {id, cardImageUrl, name, valid} = useAppSelector(selectEditIndustry);
+  const {title} = useAppSelector(selectDialogWithTitle);
   const dispatch = useAppDispatch();
-  const {id} = useAppSelector(selectEditIndustry);
   const {token} = useAppSelector(selectUser);
   const [createItem, {isSuccess: isSuccessCreate}] = useCreateIndustryMutation();
   const [getItem, {data: getedData, isSuccess: isSuccessData}] = useGetIndustryMutation();
@@ -19,7 +21,13 @@ const EditIndustry = () => {
     if (id) {
       getItem(id);
     }
-  }, []);
+  }, [id]);
+
+  useEffect(() => {
+    if (!title) {
+      resetForm();
+    }
+  }, [title]);
 
   useEffect(() => {
     if (isSuccessData && getedData) {
@@ -35,10 +43,14 @@ const EditIndustry = () => {
 
   useEffect(() => {
     if (isSuccessCreate || isSuccessUpdate) {
-      dispatch(setShow(''));
-      dispatch(reset());
+      resetForm();
     }
   }, [isSuccessCreate, isSuccessUpdate]);
+
+  const resetForm = () => {
+    dispatch(setShow(''));
+    dispatch(reset());
+  };
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -51,10 +63,25 @@ const EditIndustry = () => {
     }
   };
 
+  const handleImageChange = (event: ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files) {
+      const file = event.target.files[0];
+
+      dispatch(setCardImage(file));
+    }
+  };
+
   return (
     <DialogWithTitle
       child={
         <Box component="form" noValidate onSubmit={handleSubmit}>
+          <CardImageWithTextInput
+            imageValue={cardImageUrl}
+            onChangeImage={handleImageChange}
+            textInputValue={name}
+            onChangeText={(e) => dispatch(setName(e.target.value))}
+            validText={valid}
+          />
           <DialogActions>
             <Button type="submit" variant="outlined">
               Сохранить

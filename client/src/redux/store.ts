@@ -24,7 +24,12 @@ export const store = configureStore({
     dialogWithTitle: dialogWithTitleSlice.reducer,
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(userApi.middleware).concat(basketApi.middleware).concat(catalogApi.middleware),
+    getDefaultMiddleware({
+      serializableCheck: false,
+    })
+      .concat(userApi.middleware)
+      .concat(basketApi.middleware)
+      .concat(catalogApi.middleware),
 });
 
 export type RootState = ReturnType<typeof store.getState>;
