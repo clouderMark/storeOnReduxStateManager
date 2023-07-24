@@ -43,6 +43,15 @@ export const loaderSlice = createSlice({
       .addMatcher(catalogApi.endpoints.getNavigation.matchRejected, (state) => {
         state.isOpen = false;
       })
+      .addMatcher(subscriptionApi.endpoints.adminGetAllSubscriptions.matchPending, (state) => {
+        state.isOpen = true;
+      })
+      .addMatcher(subscriptionApi.endpoints.adminGetAllSubscriptions.matchFulfilled, (state) => {
+        state.isOpen = false;
+      })
+      .addMatcher(subscriptionApi.endpoints.adminGetAllSubscriptions.matchRejected, (state) => {
+        state.isOpen = false;
+      })
       .addMatcher(subscriptionApi.endpoints.adminDeleteSubscription.matchPending, (state) => {
         state.isOpen = true;
       })
