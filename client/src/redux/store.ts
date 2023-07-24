@@ -9,6 +9,7 @@ import {catalogSlice} from './catalogSlice';
 import {catalogApi} from './catalogApi';
 import {editIndustrySlice} from './editIndustrySlice';
 import {dialogWithTitleSlice} from './dialogWithTitleSlice';
+import {subscriptionApi} from './subscriptionApi';
 
 export const store = configureStore({
   reducer: {
@@ -22,6 +23,7 @@ export const store = configureStore({
     loader: loaderSlice.reducer,
     editIndustry: editIndustrySlice.reducer,
     dialogWithTitle: dialogWithTitleSlice.reducer,
+    [subscriptionApi.reducerPath]: subscriptionApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
@@ -29,7 +31,8 @@ export const store = configureStore({
     })
       .concat(userApi.middleware)
       .concat(basketApi.middleware)
-      .concat(catalogApi.middleware),
+      .concat(catalogApi.middleware)
+      .concat(subscriptionApi.middleware),
 });
 
 export type RootState = ReturnType<typeof store.getState>;

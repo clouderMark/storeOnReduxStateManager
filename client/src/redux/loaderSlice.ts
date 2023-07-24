@@ -2,6 +2,7 @@ import {createSlice} from '@reduxjs/toolkit';
 import type {RootState} from './store';
 import {userApi} from './userApi';
 import {catalogApi} from './catalogApi';
+import {subscriptionApi} from './subscriptionApi';
 
 interface IInitialState {
   isOpen: boolean;
@@ -40,6 +41,15 @@ export const loaderSlice = createSlice({
         state.isOpen = false;
       })
       .addMatcher(catalogApi.endpoints.getNavigation.matchRejected, (state) => {
+        state.isOpen = false;
+      })
+      .addMatcher(subscriptionApi.endpoints.adminDeleteSubscription.matchPending, (state) => {
+        state.isOpen = true;
+      })
+      .addMatcher(subscriptionApi.endpoints.adminDeleteSubscription.matchFulfilled, (state) => {
+        state.isOpen = false;
+      })
+      .addMatcher(subscriptionApi.endpoints.adminDeleteSubscription.matchRejected, (state) => {
         state.isOpen = false;
       });
   },
