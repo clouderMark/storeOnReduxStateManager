@@ -1,5 +1,7 @@
 import {createSlice} from '@reduxjs/toolkit';
 import type {RootState} from './store';
+import {userApi} from './userApi';
+import {catalogApi} from './catalogApi';
 
 interface IInitialState {
   isOpen: boolean;
@@ -19,6 +21,27 @@ export const loaderSlice = createSlice({
     closeLoader: (state) => {
       state.isOpen = false;
     },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addMatcher(userApi.endpoints.checkUser.matchPending, (state) => {
+        state.isOpen = true;
+      })
+      .addMatcher(userApi.endpoints.checkUser.matchFulfilled, (state) => {
+        state.isOpen = false;
+      })
+      .addMatcher(userApi.endpoints.checkUser.matchRejected, (state) => {
+        state.isOpen = false;
+      })
+      .addMatcher(catalogApi.endpoints.getNavigation.matchPending, (state) => {
+        state.isOpen = true;
+      })
+      .addMatcher(catalogApi.endpoints.getNavigation.matchFulfilled, (state) => {
+        state.isOpen = false;
+      })
+      .addMatcher(catalogApi.endpoints.getNavigation.matchRejected, (state) => {
+        state.isOpen = false;
+      });
   },
 });
 

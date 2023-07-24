@@ -1,10 +1,8 @@
-import {useEffect} from 'react';
 import {Button, Container} from '@mui/material';
 import {areaCells} from '../../components/TableCells/cells';
 import {Board} from '../../components/Board';
 import TableCells from '../../components/TableCells/TableCells';
 import {useGetNavigationQuery} from '../../redux/catalogApi';
-import {closeLoader, showLoader} from '../../redux/loaderSlice';
 import {useAppDispatch} from '../../redux/hooks';
 import IndustryRow from '../../components/IndustryRow';
 import EditIndustry from '../../components/EditIndustry/EditIndustry';
@@ -12,15 +10,7 @@ import {setShow} from '../../redux/dialogWithTitleSlice';
 
 const AdminIndustries = () => {
   const dispatch = useAppDispatch();
-  const {data, isLoading, isSuccess} = useGetNavigationQuery();
-
-  useEffect(() => {
-    if (isLoading) {
-      dispatch(showLoader());
-    } else {
-      dispatch(closeLoader());
-    }
-  }, [isLoading]);
+  const {data, isSuccess} = useGetNavigationQuery();
 
   const handleCreateClick = () => {
     dispatch(setShow('Создание индустрии'));
