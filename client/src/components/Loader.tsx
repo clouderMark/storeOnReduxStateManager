@@ -38,7 +38,7 @@ const Loader = () => {
             '& .MuiLinearProgress-barColorPrimary': {
               backgroundColor: theme.palette.first.main,
             },
-            mb: -0.5,
+            position: 'fixed',
           }}
         >
           <LinearProgress variant="determinate" value={progress} />
