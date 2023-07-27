@@ -1,5 +1,6 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import type {RootState} from './store';
+import {catalogApi} from './catalogApi';
 
 export enum EType {
   id = 'id',
@@ -51,24 +52,25 @@ export const editIndustrySlice = createSlice({
     },
     setName: (state, action: PayloadAction<IInitialState[EType.name]>) => {
       state[EType.name] = action.payload;
-    },
-    setData: (
-      state,
-      action: PayloadAction<{
-        [EType.name]: IInitialState[EType.name];
-        [EType.valid]: IInitialState[EType.valid];
-        [EType.cardImageUrl]: IInitialState[EType.cardImageUrl];
-      }>,
-    ) => {
-      state[EType.name] = action.payload[EType.name];
-      state[EType.valid] = action.payload[EType.valid];
-      state[EType.cardImageUrl] = action.payload[EType.cardImageUrl];
+      state[EType.valid] = state[EType.name] !== '';
     },
 
     [EType.reset]: () => initialState,
+  },
+  extraReducers: (builder) => {
+    builder
+      .addMatcher(catalogApi.endpoints.getIndustry.matchFulfilled, (state, action) => {
+        state[EType.name] = action.payload[EType.name];
+        state[EType.valid] = action.payload[EType.name] !== '';
+        state[EType.cardImageUrl] = action.payload[EType.cardImage]
+          ? process.env.REACT_APP_IMG_URL + action.payload[EType.cardImage]
+          : '';
+      })
+      .addMatcher(catalogApi.endpoints.createIndustry.matchFulfilled, () => initialState)
+      .addMatcher(catalogApi.endpoints.updateIndystry.matchFulfilled, () => initialState);
   },
 });
 
 export const selectEditIndustry = (state: RootState) => state.editIndustry;
 
-export const {setId, setData, setCardImage, setName, reset} = editIndustrySlice.actions;
+export const {setId, setCardImage, setName, reset} = editIndustrySlice.actions;
