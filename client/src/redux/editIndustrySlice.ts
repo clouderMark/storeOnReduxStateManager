@@ -4,37 +4,33 @@ import {catalogApi} from './catalogApi';
 
 export enum EType {
   id = 'id',
-
   reset = 'reset',
 
-  valid = 'valid',
   name = 'name',
+  valid = 'valid',
+
   cardImage = 'cardImage',
   cardImageUrl = 'cardImageUrl',
-  sliderImage = 'sliderImage',
-  sliderImageUrl = 'sliderImageUrl',
 }
 
 interface IInitialState {
   [EType.id]: number | null;
 
   [EType.name]: string;
+  [EType.valid]: null | boolean;
+
   [EType.cardImage]: File | null;
   [EType.cardImageUrl]: string;
-  [EType.sliderImage]: File | null;
-  [EType.sliderImageUrl]: string;
-  [EType.valid]: null | boolean;
 }
 
 const initialState: IInitialState = {
   [EType.id]: null,
 
   [EType.name]: '',
+  [EType.valid]: null,
+
   [EType.cardImage]: null,
   [EType.cardImageUrl]: '',
-  [EType.sliderImage]: null,
-  [EType.sliderImageUrl]: '',
-  [EType.valid]: null,
 };
 
 export const editIndustrySlice = createSlice({
@@ -44,10 +40,14 @@ export const editIndustrySlice = createSlice({
     setId: (state, action: PayloadAction<IInitialState[EType.id]>) => {
       state[EType.id] = action.payload;
     },
-    setCardImage: (state, action: PayloadAction<IInitialState[EType.cardImage]>) => {
-      if (action.payload) {
-        state[EType.cardImage] = action.payload;
-        state[EType.cardImageUrl] = URL.createObjectURL(action.payload);
+    setCardImage: (state, action: PayloadAction<FileList | null>) => {
+      const files = action.payload;
+
+      if (files) {
+        const file = files[0];
+
+        state[EType.cardImage] = file;
+        state[EType.cardImageUrl] = URL.createObjectURL(file);
       }
     },
     setName: (state, action: PayloadAction<IInitialState[EType.name]>) => {
