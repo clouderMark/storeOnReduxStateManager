@@ -6,7 +6,7 @@ import {useCreateIndustryMutation, useGetIndustryMutation, useUpdateIndystryMuta
 import DialogWithTitle from '../DialogWithTitle';
 import {selectDialogWithTitle, setShow} from '../../redux/dialogWithTitleSlice';
 import {selectUser} from '../../redux/userSlice';
-import {cardInputImage as styles} from './styles/cardInputImage';
+import CardInputImage from '../CardInputImage/CardInputImage';
 
 const EditIndustry = () => {
   const {id, name, valid, cardImageUrl, sliderImageUrl} = useAppSelector(selectEditIndustry);
@@ -53,30 +53,7 @@ const EditIndustry = () => {
             <Box display={'flex'}>
               <Typography sx={{mr: '10px', writingMode: 'vertical-rl'}}>Карточка с названием</Typography>
               <Box sx={{width: '335px'}}>
-                <Box sx={styles.card}>
-                  <Box sx={styles.img} component="img" src={cardImageUrl} />
-                  <Button
-                    sx={{
-                      position: 'absolute',
-                      top: 0,
-                      left: 0,
-                    }}
-                    aria-label="upload picture"
-                    component="label"
-                    color="first"
-                    variant="contained"
-                  >
-                    <input
-                      type="file"
-                      onChange={(e: ChangeEvent<HTMLInputElement>) => dispatch(setCardImage(e.target.files))}
-                      placeholder="Фото ..."
-                      hidden
-                      accept="image/*"
-                      aria-label="upload picture"
-                    />
-                    {`${id ? 'Изменить' : 'Добавить'} фото`}
-                  </Button>
-                </Box>
+                <CardInputImage value={cardImageUrl} action={setCardImage} />
                 <TextField
                   value={name}
                   onChange={(e: ChangeEvent<HTMLInputElement>) => dispatch(setName(e.target.value))}
@@ -91,30 +68,7 @@ const EditIndustry = () => {
             </Box>
             <Box sx={{flexGrow: 1, display: 'flex', ml: '30px'}}>
               <Typography sx={{mr: '10px', writingMode: 'vertical-rl'}}>Изображние для слайдера</Typography>
-              <Box sx={[styles.card, {flexGrow: 1}]}>
-                <Box sx={styles.img} component="img" src={sliderImageUrl} />
-                <Button
-                  sx={{
-                    position: 'absolute',
-                    top: 0,
-                    left: 0,
-                  }}
-                  aria-label="upload picture"
-                  component="label"
-                  color="first"
-                  variant="contained"
-                >
-                  <input
-                    type="file"
-                    onChange={(e: ChangeEvent<HTMLInputElement>) => dispatch(setSliderImage(e.target.files))}
-                    placeholder="Фото ..."
-                    hidden
-                    accept="image/*"
-                    aria-label="upload picture"
-                  />
-                  {`${id ? 'Изменить' : 'Добавить'} фото`}
-                </Button>
-              </Box>
+              <CardInputImage value={sliderImageUrl} action={setSliderImage} sx={{flexGrow: 1}} />
             </Box>
           </Box>
           <DialogActions>
