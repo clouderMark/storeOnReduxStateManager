@@ -11,6 +11,9 @@ export enum EType {
 
   cardImage = 'cardImage',
   cardImageUrl = 'cardImageUrl',
+
+  sliderImage = 'sliderImage',
+  sliderImageUrl = 'sliderImageUrl',
 }
 
 interface IInitialState {
@@ -21,6 +24,9 @@ interface IInitialState {
 
   [EType.cardImage]: File | null;
   [EType.cardImageUrl]: string;
+
+  [EType.sliderImage]: File | null;
+  [EType.sliderImageUrl]: string;
 }
 
 const initialState: IInitialState = {
@@ -31,6 +37,9 @@ const initialState: IInitialState = {
 
   [EType.cardImage]: null,
   [EType.cardImageUrl]: '',
+
+  [EType.sliderImage]: null,
+  [EType.sliderImageUrl]: '',
 };
 
 export const editIndustrySlice = createSlice({
@@ -50,6 +59,16 @@ export const editIndustrySlice = createSlice({
         state[EType.cardImageUrl] = URL.createObjectURL(file);
       }
     },
+    setSliderImage: (state, action: PayloadAction<FileList | null>) => {
+      const files = action.payload;
+
+      if (files) {
+        const file = files[0];
+
+        state[EType.sliderImage] = file;
+        state[EType.sliderImageUrl] = URL.createObjectURL(file);
+      }
+    },
     setName: (state, action: PayloadAction<IInitialState[EType.name]>) => {
       state[EType.name] = action.payload;
       state[EType.valid] = state[EType.name] !== '';
@@ -65,6 +84,9 @@ export const editIndustrySlice = createSlice({
         state[EType.cardImageUrl] = action.payload[EType.cardImage]
           ? process.env.REACT_APP_IMG_URL + action.payload[EType.cardImage]
           : '';
+        state[EType.sliderImageUrl] = action.payload[EType.sliderImage]
+          ? process.env.REACT_APP_IMG_URL + action.payload[EType.sliderImage]
+          : '';
       })
       .addMatcher(catalogApi.endpoints.createIndustry.matchFulfilled, () => initialState)
       .addMatcher(catalogApi.endpoints.updateIndystry.matchFulfilled, () => initialState);
@@ -73,4 +95,4 @@ export const editIndustrySlice = createSlice({
 
 export const selectEditIndustry = (state: RootState) => state.editIndustry;
 
-export const {setId, setCardImage, setName, reset} = editIndustrySlice.actions;
+export const {setId, setCardImage, setName, setSliderImage, reset} = editIndustrySlice.actions;
