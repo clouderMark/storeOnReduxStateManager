@@ -5,7 +5,7 @@ import {useAppDispatch, useAppSelector} from '../redux/hooks';
 import {selectUser} from '../redux/userSlice';
 import {showAlert} from '../redux/alertSlice';
 import {setShow} from '../redux/dialogWithTitleSlice';
-import {setId} from '../redux/editIndustrySlice';
+import {setId} from '../redux/editIndustrySlice/editIndustrySlice';
 
 interface IProps {
   id: number;

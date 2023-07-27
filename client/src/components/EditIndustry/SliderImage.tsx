@@ -1,7 +1,7 @@
 import {Box, Typography} from '@mui/material';
 import CardInputImage from '../CardInputImage/CardInputImage';
 import {useAppSelector} from '../../redux/hooks';
-import {selectEditIndustry, setSliderImage} from '../../redux/editIndustrySlice';
+import {selectEditIndustry, setSliderImage} from '../../redux/editIndustrySlice/editIndustrySlice';
 
 const SliderImage = () => {
   const {sliderImageUrl} = useAppSelector(selectEditIndustry);

@@ -1,7 +1,7 @@
 import {Box, Typography} from '@mui/material';
 import CardInputImageText from '../CardInputImageText';
 import {useAppSelector} from '../../redux/hooks';
-import {selectEditIndustry, setCardImage, setName} from '../../redux/editIndustrySlice';
+import {selectEditIndustry, setCardImage, setName} from '../../redux/editIndustrySlice/editIndustrySlice';
 
 const Card = () => {
   const {name, valid, cardImageUrl} = useAppSelector(selectEditIndustry);

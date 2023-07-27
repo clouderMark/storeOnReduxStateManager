@@ -14,7 +14,7 @@ import {
   setInfoImage,
   setInfoListTitle,
   setInfoTitle,
-} from '../../redux/editIndustrySlice';
+} from '../../redux/editIndustrySlice/editIndustrySlice';
 import {useAppDispatch, useAppSelector} from '../../redux/hooks';
 import AppendInput from '../AppendInput';
 

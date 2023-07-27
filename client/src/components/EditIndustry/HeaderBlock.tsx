@@ -8,7 +8,7 @@ import {
   selectEditIndustry,
   setHeaderImage,
   setTitle,
-} from '../../redux/editIndustrySlice';
+} from '../../redux/editIndustrySlice/editIndustrySlice';
 import AppendInput from '../AppendInput';
 
 const HeaderBlock = () => {

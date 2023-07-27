@@ -7,7 +7,7 @@ import {basketApi} from './basketApi';
 import {basketSlice} from './basketSlice';
 import {catalogSlice} from './catalogSlice';
 import {catalogApi} from './catalogApi';
-import {editIndustrySlice} from './editIndustrySlice';
+import {editIndustrySlice} from './editIndustrySlice/editIndustrySlice';
 import {dialogWithTitleSlice} from './dialogWithTitleSlice';
 import {subscriptionApi} from './subscriptionApi';
 

@@ -1,91 +1,10 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import uuid from 'react-uuid';
-import type {RootState} from './store';
-import {catalogApi} from './catalogApi';
-import {IParagraphs} from '../interfaces/interfaces';
-
-export enum EType {
-  id = 'id',
-  reset = 'reset',
-
-  name = 'name',
-  valid = 'valid',
-
-  cardImage = 'cardImage',
-  cardImageUrl = 'cardImageUrl',
-
-  sliderImage = 'sliderImage',
-  sliderImageUrl = 'sliderImageUrl',
-
-  headerImage = 'headerImage',
-  headerImageUrl = 'headerImageUrl',
-
-  title = 'title',
-  paragraphs = 'paragraphs',
-
-  infoImage = 'infoImage',
-  infoImageUrl = 'infoImageUrl',
-  infoTitle = 'infoTitle',
-  infoHeader = 'infoHeader',
-  infoListTitle = 'infoListTitle',
-  infoListItems = 'infoListItems',
-  infoParagraphs = 'infoParagraphs',
-}
-
-interface IInitialState {
-  [EType.id]: number | null;
-
-  [EType.name]: string;
-  [EType.valid]: null | boolean;
-
-  [EType.cardImage]: File | null;
-  [EType.cardImageUrl]: string;
-
-  [EType.sliderImage]: File | null;
-  [EType.sliderImageUrl]: string;
-
-  [EType.headerImage]: File | null;
-  [EType.headerImageUrl]: string;
-
-  [EType.title]: string;
-
-  [EType.paragraphs]: IParagraphs[];
-
-  [EType.infoImage]: File | null;
-  [EType.infoImageUrl]: string;
-  [EType.infoTitle]: string;
-  [EType.infoHeader]: string;
-  [EType.infoListTitle]: string;
-  [EType.infoListItems]: IParagraphs[];
-  [EType.infoParagraphs]: IParagraphs[];
-}
-
-const initialState: IInitialState = {
-  [EType.id]: null,
-
-  [EType.name]: '',
-  [EType.valid]: null,
-
-  [EType.cardImage]: null,
-  [EType.cardImageUrl]: '',
-
-  [EType.sliderImage]: null,
-  [EType.sliderImageUrl]: '',
-
-  [EType.headerImage]: null,
-  [EType.headerImageUrl]: '',
-
-  [EType.title]: '',
-  [EType.paragraphs]: [],
-
-  [EType.infoImage]: null,
-  [EType.infoImageUrl]: '',
-  [EType.infoTitle]: '',
-  [EType.infoHeader]: '',
-  [EType.infoListTitle]: '',
-  [EType.infoListItems]: [],
-  [EType.infoParagraphs]: [],
-};
+import type {RootState} from '../store';
+import {catalogApi} from '../catalogApi';
+import {EType} from './EType';
+import {IInitialState} from './IInitialState';
+import {initialState} from './initialState';
 
 export const editIndustrySlice = createSlice({
   name: 'editIndustry',
