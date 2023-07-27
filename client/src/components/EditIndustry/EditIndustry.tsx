@@ -9,6 +9,7 @@ import {selectUser} from '../../redux/userSlice';
 import Card from './Card';
 import SliderImage from './SliderImage';
 import HeaderBlock from './HeaderBlock';
+import Info from './Info';
 
 const EditIndustry = () => {
   const {id} = useAppSelector(selectEditIndustry);
@@ -56,6 +57,7 @@ const EditIndustry = () => {
             <SliderImage />
           </Box>
           <HeaderBlock />
+          <Info />
           <DialogActions>
             <Button type="submit" variant="outlined">
               Сохранить

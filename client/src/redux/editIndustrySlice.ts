@@ -22,6 +22,14 @@ export enum EType {
 
   title = 'title',
   paragraphs = 'paragraphs',
+
+  infoImage = 'infoImage',
+  infoImageUrl = 'infoImageUrl',
+  infoTitle = 'infoTitle',
+  infoHeader = 'infoHeader',
+  infoListTitle = 'infoListTitle',
+  infoListItems = 'infoListItems',
+  infoParagraphs = 'infoParagraphs',
 }
 
 interface IInitialState {
@@ -42,6 +50,14 @@ interface IInitialState {
   [EType.title]: string;
 
   [EType.paragraphs]: IParagraphs[];
+
+  [EType.infoImage]: File | null;
+  [EType.infoImageUrl]: string;
+  [EType.infoTitle]: string;
+  [EType.infoHeader]: string;
+  [EType.infoListTitle]: string;
+  [EType.infoListItems]: IParagraphs[];
+  [EType.infoParagraphs]: IParagraphs[];
 }
 
 const initialState: IInitialState = {
@@ -61,6 +77,14 @@ const initialState: IInitialState = {
 
   [EType.title]: '',
   [EType.paragraphs]: [],
+
+  [EType.infoImage]: null,
+  [EType.infoImageUrl]: '',
+  [EType.infoTitle]: '',
+  [EType.infoHeader]: '',
+  [EType.infoListTitle]: '',
+  [EType.infoListItems]: [],
+  [EType.infoParagraphs]: [],
 };
 
 export const editIndustrySlice = createSlice({
@@ -124,6 +148,55 @@ export const editIndustrySlice = createSlice({
         :
         item));
     },
+    setInfoImage: (state, action: PayloadAction<FileList | null>) => {
+      const files = action.payload;
+
+      if (files) {
+        const file = files[0];
+
+        state[EType.infoImage] = file;
+        state[EType.infoImageUrl] = URL.createObjectURL(file);
+      }
+    },
+    setInfoTitle: (state, action: PayloadAction<IInitialState[EType.infoTitle]>) => {
+      state[EType.infoTitle] = action.payload;
+    },
+    setInfoHeader: (state, action: PayloadAction<IInitialState[EType.infoHeader]>) => {
+      state[EType.infoHeader] = action.payload;
+    },
+    setInfoListTitle: (state, action: PayloadAction<IInitialState[EType.infoListTitle]>) => {
+      state[EType.infoListTitle] = action.payload;
+    },
+
+    appendInfoListItem: (state) => {
+      state[EType.infoListItems].push({id: null, value: '', unique: uuid()});
+    },
+    removeInfoListItem: (state, action: PayloadAction<string>) => {
+      state[EType.infoListItems] = state[EType.infoListItems].filter((elem) => elem.unique !== action.payload);
+    },
+    // prettier-ignore
+    changeInfoListItem: (state, action: PayloadAction<{value: string, unique: string}>) => {
+      state[EType.infoListItems] = state[EType.infoListItems].map((item) => (item.unique === action.payload.unique
+        ?
+        {...item, value: action.payload.value}
+        :
+        item));
+    },
+
+    appendInfoParagraph: (state) => {
+      state[EType.infoParagraphs].push({id: null, value: '', unique: uuid()});
+    },
+    removeInfoParagraph: (state, action: PayloadAction<string>) => {
+      state[EType.infoParagraphs] = state[EType.infoParagraphs].filter((elem) => elem.unique !== action.payload);
+    },
+    // prettier-ignore
+    changeInfoParagraph: (state, action: PayloadAction<{value: string, unique: string}>) => {
+      state[EType.infoParagraphs] = state[EType.infoParagraphs].map((item) => (item.unique === action.payload.unique
+        ?
+        {...item, value: action.payload.value}
+        :
+        item));
+    },
 
     [EType.reset]: () => initialState,
   },
@@ -145,6 +218,15 @@ export const editIndustrySlice = createSlice({
           ? process.env.REACT_APP_IMG_URL + payload[EType.headerImage]
           : '';
         state[EType.paragraphs] = payload[EType.paragraphs].map((item) => ({...item, unique: uuid()}));
+
+        const {info} = payload;
+
+        state[EType.infoImageUrl] = info.image ? process.env.REACT_APP_IMG_URL + info.image : '';
+        state[EType.infoTitle] = info.title;
+        state[EType.infoHeader] = info.header;
+        state[EType.infoListTitle] = info.listTitle;
+        state[EType.infoListItems] = info.listItems.map((item) => ({...item, unique: uuid()}));
+        state[EType.infoParagraphs] = info.paragraphs.map((item) => ({...item, unique: uuid()}));
       })
       .addMatcher(catalogApi.endpoints.createIndustry.matchFulfilled, () => initialState)
       .addMatcher(catalogApi.endpoints.updateIndystry.matchFulfilled, () => initialState);
@@ -163,5 +245,15 @@ export const {
   appendParagraph,
   removeParagraph,
   changeParagraph,
+  setInfoImage,
+  setInfoTitle,
+  setInfoHeader,
+  setInfoListTitle,
+  appendInfoListItem,
+  changeInfoListItem,
+  removeInfoListItem,
+  appendInfoParagraph,
+  removeInfoParagraph,
+  changeInfoParagraph,
   reset,
 } = editIndustrySlice.actions;
