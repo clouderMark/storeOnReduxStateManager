@@ -57,7 +57,7 @@ export const catalogApi = createApi({
         const req: FetchArgs = {
           url: '/industry/create',
           method: 'POST',
-          body: {...data.body},
+          body: data.body,
         };
 
         if (data.token) req.headers = {authorization: `Bearer ${data.token}`};
@@ -71,7 +71,7 @@ export const catalogApi = createApi({
         const req: FetchArgs = {
           url: `/industry/update/${data.id}`,
           method: 'PUT',
-          body: {...data.body},
+          body: data.body,
         };
 
         if (data.token) req.headers = {authorization: `Bearer ${data.token}`};
