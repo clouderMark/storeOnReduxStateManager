@@ -23,8 +23,9 @@ export const editIndustrySlice = createSlice({
     },
     setName: (state, action: PayloadAction<IInitialState[EType.name]>) => {
       state[EType.name] = action.payload;
+      state[EType.valid] = null;
     },
-    setValid: (state) => {
+    checkValidAndIfIsTrueSubmit: (state) => {
       state[EType.valid] = state[EType.name].trim() !== '';
     },
     setSliderImage: (state, action: PayloadAction<FileList | null>) => {
@@ -182,7 +183,6 @@ export const editIndustrySlice = createSlice({
         const {payload} = action;
 
         state[EType.name] = payload[EType.name];
-        state[EType.valid] = payload[EType.name] !== '';
         state[EType.cardImageUrl] = payload[EType.cardImage]
           ? process.env.REACT_APP_IMG_URL + payload[EType.cardImage]
           : '';
@@ -226,7 +226,7 @@ export const selectEditIndustry = (state: RootState) => state.editIndustry;
 export const {
   setCardImage,
   setName,
-  setValid,
+  checkValidAndIfIsTrueSubmit,
   setSliderImage,
   setHeaderImage,
   setTitle,
