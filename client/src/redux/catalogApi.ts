@@ -7,7 +7,7 @@ interface IData {
 }
 
 interface IUpdateData extends IData {
-  id:number;
+  id: number;
 }
 
 interface IIdToken {
@@ -25,8 +25,10 @@ interface IReqProds {
 
 const BASE_URL = process.env.REACT_APP_API_URL;
 
+// prettier-ignore
 export const catalogApi = createApi({
   reducerPath: 'catalogApi',
+  tagTypes: ['Navigation'],
   baseQuery: fetchBaseQuery({
     baseUrl: `${BASE_URL}`,
     credentials: 'include',
@@ -37,6 +39,17 @@ export const catalogApi = createApi({
         url: 'navigation/getall',
         method: 'GET',
       }),
+      providesTags: (result) => (
+        result
+          ?
+          [...[
+            ...result.industries,
+            ...result.solutions,
+            ...result.subIndustries,
+          ].map(({id}) => ({type: 'Navigation' as const, id})), 'Navigation']
+          :
+          ['Navigation']
+      ),
     }),
 
     createIndustry: builder.mutation<IAreaResponse, IData>({
@@ -51,6 +64,7 @@ export const catalogApi = createApi({
 
         return req;
       },
+      invalidatesTags: ['Navigation'],
     }),
     updateIndystry: builder.mutation<IAreaResponse[], IUpdateData>({
       query: (data) => {
@@ -64,6 +78,7 @@ export const catalogApi = createApi({
 
         return req;
       },
+      invalidatesTags: ['Navigation'],
     }),
     getIndustries: builder.query<IAreaResponse[], void>({
       query: () => ({
@@ -83,6 +98,7 @@ export const catalogApi = createApi({
         method: 'DELETE',
         headers: {authorization: `Bearer ${data.token}`},
       }),
+      invalidatesTags: ['Navigation'],
     }),
 
     getSubIndustries: builder.query<IAreaResponse[], void>({
