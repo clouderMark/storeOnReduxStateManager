@@ -1,10 +1,10 @@
 import {FormEvent, useEffect} from 'react';
 import {Box, Button, DialogActions} from '@mui/material';
 import {useAppDispatch, useAppSelector} from '../../redux/hooks';
-import {reset, selectEditIndustry} from '../../redux/editIndustrySlice/editIndustrySlice';
+import {selectEditIndustry} from '../../redux/editIndustrySlice/editIndustrySlice';
 import {useCreateIndustryMutation, useGetIndustryMutation, useUpdateIndystryMutation} from '../../redux/catalogApi';
 import DialogWithTitle from '../DialogWithTitle';
-import {selectDialogWithTitle, setShow} from '../../redux/dialogWithTitleSlice';
+import {selectDialogWithTitle, reset} from '../../redux/dialogWithTitleSlice';
 import {selectUser} from '../../redux/userSlice';
 import Card from './Card';
 import SliderImage from './SliderImage';
@@ -33,7 +33,6 @@ const EditIndustry = () => {
   }, [title]);
 
   const resetForm = () => {
-    dispatch(setShow(''));
     dispatch(reset());
   };
 

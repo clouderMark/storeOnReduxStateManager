@@ -24,7 +24,7 @@ export const dialogWithTitleSlice = createSlice({
       state[EType.title] = action.payload;
     },
 
-    [EType.reset]: () => initialState,
+    reset: () => initialState,
   },
   extraReducers: (builder) => {
     builder
@@ -35,4 +35,4 @@ export const dialogWithTitleSlice = createSlice({
 
 export const selectDialogWithTitle = (state: RootState) => state.dialogWithTitle;
 
-export const {setShow} = dialogWithTitleSlice.actions;
+export const {setShow, reset} = dialogWithTitleSlice.actions;

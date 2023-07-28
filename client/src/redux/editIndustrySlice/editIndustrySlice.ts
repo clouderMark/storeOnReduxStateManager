@@ -5,6 +5,7 @@ import {catalogApi} from '../catalogApi';
 import {EType} from './EType';
 import {IInitialState} from './IInitialState';
 import {initialState} from './initialState';
+import {dialogWithTitleSlice} from '../dialogWithTitleSlice';
 
 export const editIndustrySlice = createSlice({
   name: 'editIndustry',
@@ -121,6 +122,7 @@ export const editIndustrySlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+      .addCase(dialogWithTitleSlice.actions.reset, () => initialState)
       .addMatcher(catalogApi.endpoints.getIndustry.matchFulfilled, (state, action) => {
         const {payload} = action;
 
