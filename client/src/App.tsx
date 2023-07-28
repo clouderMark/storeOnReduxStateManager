@@ -6,7 +6,6 @@ import {useCheckUserMutation} from './redux/userApi';
 import {useAppDispatch, useAppSelector} from './redux/hooks';
 import {getToken, selectUser} from './redux/userSlice';
 import {useGetBasketQuery} from './redux/basketApi';
-import {setProds} from './redux/basketSlice';
 import Loader from './components/Loader';
 import AlertLine from './components/AlertLine/AlertLine';
 import NavBar from './components/NavBar/NavBar';
@@ -15,8 +14,10 @@ import Breadcrumbs from './components/Breadcrumbs/Breadcrumbs';
 const App = () => {
   const dispatch = useAppDispatch();
   const [checkUser] = useCheckUserMutation();
-  const {data: basketData, isSuccess: isBasketSuccess} = useGetBasketQuery();
+
   const {token} = useAppSelector(selectUser);
+
+  useGetBasketQuery();
 
   useEffect(() => {
     dispatch(getToken());
@@ -27,12 +28,6 @@ const App = () => {
       checkUser(token);
     }
   }, [token]);
-
-  useEffect(() => {
-    if (isBasketSuccess) {
-      dispatch(setProds(basketData!.products));
-    }
-  }, [isBasketSuccess]);
 
   return (
     <BrowserRouter>
