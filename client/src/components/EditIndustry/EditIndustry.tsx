@@ -1,6 +1,6 @@
 import {FormEvent, useEffect} from 'react';
 import {Box, Button, DialogActions} from '@mui/material';
-import {useAppSelector} from '../../redux/hooks';
+import {useAppDispatch, useAppSelector} from '../../redux/hooks';
 import {selectEditIndustry} from '../../redux/editIndustrySlice/editIndustrySlice';
 import {useCreateIndustryMutation, useGetIndustryMutation, useUpdateIndystryMutation} from '../../redux/catalogApi';
 import DialogWithTitle from '../DialogWithTitle';
@@ -9,19 +9,27 @@ import Card from './Card';
 import SliderImage from './SliderImage';
 import HeaderBlock from './HeaderBlock';
 import Info from './Info';
+import {showAlert} from '../../redux/alertSlice';
 
 const EditIndustry = () => {
+  const dispatch = useAppDispatch();
   const {id} = useAppSelector(selectEditIndustry);
   const {token} = useAppSelector(selectUser);
-  const [createItem] = useCreateIndustryMutation();
+  const [createItem, {isError: isErrorCreate}] = useCreateIndustryMutation();
   const [getItem] = useGetIndustryMutation();
-  const [updateItem] = useUpdateIndystryMutation();
+  const [updateItem, {isError: isErrorUpdate}] = useUpdateIndystryMutation();
 
   useEffect(() => {
     if (id) {
       getItem(id);
     }
   }, [id]);
+
+  useEffect(() => {
+    if (isErrorCreate || isErrorUpdate) {
+      dispatch(showAlert({message: 'Что-то пошло не так', statusCode: 400}));
+    }
+  }, [isErrorCreate, isErrorUpdate]);
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
