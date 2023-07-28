@@ -27,4 +27,15 @@ export interface IInitialState {
   [EType.infoListTitle]: string;
   [EType.infoListItems]: IParagraphs[];
   [EType.infoParagraphs]: IParagraphs[];
+
+  [EType.opinionTitle]: string;
+  [EType.opinionListTitle]: string;
+  [EType.opinionName]: string;
+  [EType.opinionPhone]: string;
+  [EType.opinionFax]: string;
+  [EType.opinionEmail]: string;
+  [EType.opinionImage]: File | null;
+  [EType.opinionImageUrl]: string;
+  [EType.opinionParagraphs]: IParagraphs[];
+  [EType.opinionListItems]: IParagraphs[];
 }

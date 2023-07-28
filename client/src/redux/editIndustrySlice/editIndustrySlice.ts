@@ -23,7 +23,9 @@ export const editIndustrySlice = createSlice({
     },
     setName: (state, action: PayloadAction<IInitialState[EType.name]>) => {
       state[EType.name] = action.payload;
-      state[EType.valid] = state[EType.name] !== '';
+    },
+    setValid: (state) => {
+      state[EType.valid] = state[EType.name].trim() !== '';
     },
     setSliderImage: (state, action: PayloadAction<FileList | null>) => {
       const files = action.payload;
@@ -115,6 +117,59 @@ export const editIndustrySlice = createSlice({
         item));
     },
 
+    setOpinionTitle: (state, action: PayloadAction<IInitialState[EType.opinionTitle]>) => {
+      state[EType.opinionTitle] = action.payload;
+    },
+    appendOpinionParagraph: (state) => {
+      state[EType.opinionParagraphs].push({id: null, value: '', unique: uuid()});
+    },
+    removeOpinionParagraph: (state, action: PayloadAction<string>) => {
+      state[EType.opinionParagraphs] = state[EType.opinionParagraphs].filter((elem) => elem.unique !== action.payload);
+    },
+    // prettier-ignore
+    changeOpinionParagraph: (state, action: PayloadAction<{value: string; unique: string}>) => {
+      // eslint-disable-next-line
+      state[EType.opinionParagraphs] = state[EType.opinionParagraphs].map((item) =>
+        item.unique === action.payload.unique ? {...item, value: action.payload.value} : item);
+    },
+    setOpinionListTitle: (state, action: PayloadAction<IInitialState[EType.opinionListTitle]>) => {
+      state[EType.opinionListTitle] = action.payload;
+    },
+    appendOpinionListItem: (state) => {
+      state[EType.opinionListItems].push({id: null, value: '', unique: uuid()});
+    },
+    removeOpinionListItem: (state, action: PayloadAction<string>) => {
+      state[EType.opinionListItems] = state[EType.opinionListItems].filter((elem) => elem.unique !== action.payload);
+    },
+    // prettier-ignore
+    changeOpinionListItem: (state, action: PayloadAction<{value: string; unique: string}>) => {
+      // eslint-disable-next-line
+      state[EType.opinionListItems] = state[EType.opinionListItems].map((item) =>
+        item.unique === action.payload.unique ? {...item, value: action.payload.value} : item);
+    },
+    setOpinionImage: (state, action: PayloadAction<FileList | null>) => {
+      const files = action.payload;
+
+      if (files) {
+        const file = files[0];
+
+        state[EType.opinionImage] = file;
+        state[EType.opinionImageUrl] = URL.createObjectURL(file);
+      }
+    },
+    setOpinionName: (state, action: PayloadAction<IInitialState[EType.opinionName]>) => {
+      state[EType.opinionName] = action.payload;
+    },
+    setOpinionPhone: (state, action: PayloadAction<IInitialState[EType.opinionPhone]>) => {
+      state[EType.opinionPhone] = action.payload;
+    },
+    setOpinionFax: (state, action: PayloadAction<IInitialState[EType.opinionFax]>) => {
+      state[EType.opinionFax] = action.payload;
+    },
+    setOpinionEmail: (state, action: PayloadAction<IInitialState[EType.opinionEmail]>) => {
+      state[EType.opinionEmail] = action.payload;
+    },
+
     [EType.reset]: () => initialState,
   },
   extraReducers: (builder) => {
@@ -148,6 +203,18 @@ export const editIndustrySlice = createSlice({
         state[EType.infoListTitle] = info.listTitle;
         state[EType.infoListItems] = info.listItems.map((item) => ({...item, unique: uuid()}));
         state[EType.infoParagraphs] = info.paragraphs.map((item) => ({...item, unique: uuid()}));
+
+        const {opinion} = payload;
+
+        state[EType.opinionTitle] = opinion.title;
+        state[EType.opinionListTitle] = opinion.listTitle;
+        state[EType.opinionName] = opinion.name;
+        state[EType.opinionPhone] = opinion.phone;
+        state[EType.opinionFax] = opinion.fax;
+        state[EType.opinionEmail] = opinion.email;
+        state[EType.opinionImageUrl] = opinion.image ? process.env.REACT_APP_IMG_URL + opinion.image : '';
+        state[EType.opinionParagraphs] = opinion.paragraphs.map((item) => ({...item, unique: uuid()}));
+        state[EType.opinionListItems] = opinion.listItems.map((item) => ({...item, unique: uuid()}));
       })
       .addMatcher(catalogApi.endpoints.createIndustry.matchFulfilled, () => initialState)
       .addMatcher(catalogApi.endpoints.updateIndystry.matchFulfilled, () => initialState);
@@ -159,6 +226,7 @@ export const selectEditIndustry = (state: RootState) => state.editIndustry;
 export const {
   setCardImage,
   setName,
+  setValid,
   setSliderImage,
   setHeaderImage,
   setTitle,
@@ -175,5 +243,20 @@ export const {
   appendInfoParagraph,
   removeInfoParagraph,
   changeInfoParagraph,
+
+  setOpinionTitle,
+  appendOpinionParagraph,
+  removeOpinionParagraph,
+  changeOpinionParagraph,
+  setOpinionListTitle,
+  appendOpinionListItem,
+  removeOpinionListItem,
+  changeOpinionListItem,
+  setOpinionImage,
+  setOpinionName,
+  setOpinionPhone,
+  setOpinionFax,
+  setOpinionEmail,
+
   reset,
 } = editIndustrySlice.actions;

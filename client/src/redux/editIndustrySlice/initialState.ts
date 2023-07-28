@@ -26,4 +26,15 @@ export const initialState: IInitialState = {
   [EType.infoListTitle]: '',
   [EType.infoListItems]: [],
   [EType.infoParagraphs]: [],
+
+  [EType.opinionTitle]: '',
+  [EType.opinionListTitle]: '',
+  [EType.opinionName]: '',
+  [EType.opinionPhone]: '',
+  [EType.opinionFax]: '',
+  [EType.opinionEmail]: '',
+  [EType.opinionImage]: null,
+  [EType.opinionImageUrl]: '',
+  [EType.opinionParagraphs]: [],
+  [EType.opinionListItems]: [],
 };

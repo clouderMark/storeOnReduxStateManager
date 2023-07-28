@@ -24,4 +24,15 @@ export enum EType {
   infoListTitle = 'infoListTitle',
   infoListItems = 'infoListItems',
   infoParagraphs = 'infoParagraphs',
+
+  opinionTitle = 'opinionTitle',
+  opinionListTitle = 'opinionListTitle',
+  opinionImage = 'opinionImage',
+  opinionName = 'opinionName',
+  opinionPhone = 'opinionPhone',
+  opinionFax = 'opinionFax',
+  opinionEmail = 'opinionEmail',
+  opinionImageUrl = 'opinionImageUrl',
+  opinionParagraphs = 'opinionParagraphs',
+  opinionListItems = 'opinionListItems',
 }
