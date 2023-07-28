@@ -1,10 +1,9 @@
 import {FormEvent, useEffect} from 'react';
 import {Box, Button, DialogActions} from '@mui/material';
-import {useAppDispatch, useAppSelector} from '../../redux/hooks';
+import {useAppSelector} from '../../redux/hooks';
 import {selectEditIndustry} from '../../redux/editIndustrySlice/editIndustrySlice';
 import {useCreateIndustryMutation, useGetIndustryMutation, useUpdateIndystryMutation} from '../../redux/catalogApi';
 import DialogWithTitle from '../DialogWithTitle';
-import {selectDialogWithTitle, reset} from '../../redux/dialogWithTitleSlice';
 import {selectUser} from '../../redux/userSlice';
 import Card from './Card';
 import SliderImage from './SliderImage';
@@ -13,8 +12,6 @@ import Info from './Info';
 
 const EditIndustry = () => {
   const {id} = useAppSelector(selectEditIndustry);
-  const {title} = useAppSelector(selectDialogWithTitle);
-  const dispatch = useAppDispatch();
   const {token} = useAppSelector(selectUser);
   const [createItem] = useCreateIndustryMutation();
   const [getItem] = useGetIndustryMutation();
@@ -25,16 +22,6 @@ const EditIndustry = () => {
       getItem(id);
     }
   }, [id]);
-
-  useEffect(() => {
-    if (!title) {
-      resetForm();
-    }
-  }, [title]);
-
-  const resetForm = () => {
-    dispatch(reset());
-  };
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();

@@ -13,7 +13,7 @@ const AdminIndustries = () => {
   const {data, isSuccess} = useGetNavigationQuery();
 
   const handleCreateClick = () => {
-    dispatch(setShow('Создание индустрии'));
+    dispatch(setShow({title: 'Создание индустрии'}));
   };
 
   return (

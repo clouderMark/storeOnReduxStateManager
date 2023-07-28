@@ -11,9 +11,6 @@ export const editIndustrySlice = createSlice({
   name: 'editIndustry',
   initialState,
   reducers: {
-    setId: (state, action: PayloadAction<IInitialState[EType.id]>) => {
-      state[EType.id] = action.payload;
-    },
     setCardImage: (state, action: PayloadAction<FileList | null>) => {
       const files = action.payload;
 
@@ -123,6 +120,9 @@ export const editIndustrySlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(dialogWithTitleSlice.actions.reset, () => initialState)
+      .addCase(dialogWithTitleSlice.actions.setShow, (state, action) => {
+        state.id = action.payload.id;
+      })
       .addMatcher(catalogApi.endpoints.getIndustry.matchFulfilled, (state, action) => {
         const {payload} = action;
 
@@ -157,7 +157,6 @@ export const editIndustrySlice = createSlice({
 export const selectEditIndustry = (state: RootState) => state.editIndustry;
 
 export const {
-  setId,
   setCardImage,
   setName,
   setSliderImage,

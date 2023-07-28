@@ -2,7 +2,7 @@ import {EType} from './EType';
 import {IInitialState} from './IInitialState';
 
 export const initialState: IInitialState = {
-  [EType.id]: null,
+  [EType.id]: undefined,
 
   [EType.name]: '',
   [EType.valid]: null,

@@ -1,5 +1,5 @@
 import {Dialog, DialogContent, DialogTitle} from '@mui/material';
-import {selectDialogWithTitle, setShow} from '../redux/dialogWithTitleSlice';
+import {reset, selectDialogWithTitle} from '../redux/dialogWithTitleSlice';
 import {useAppDispatch, useAppSelector} from '../redux/hooks';
 
 interface IProps {
@@ -12,7 +12,7 @@ const DialogWithTitle = (props: IProps) => {
   const dispatch = useAppDispatch();
 
   return (
-    <Dialog open={Boolean(title)} onClose={() => dispatch(setShow(''))} PaperProps={{sx: {minWidth: '94%'}}}>
+    <Dialog open={Boolean(title)} onClose={() => dispatch(reset())} PaperProps={{sx: {minWidth: '94%'}}}>
       <DialogTitle>{title}</DialogTitle>
       <DialogContent>{child}</DialogContent>
     </Dialog>

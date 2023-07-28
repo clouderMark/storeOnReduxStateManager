@@ -2,7 +2,7 @@ import {IParagraphs} from '../../interfaces/interfaces';
 import {EType} from './EType';
 
 export interface IInitialState {
-  [EType.id]: number | null;
+  [EType.id]: number | undefined;
 
   [EType.name]: string;
   [EType.valid]: null | boolean;

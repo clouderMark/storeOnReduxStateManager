@@ -5,7 +5,6 @@ import {useAppDispatch, useAppSelector} from '../redux/hooks';
 import {selectUser} from '../redux/userSlice';
 import {showAlert} from '../redux/alertSlice';
 import {setShow} from '../redux/dialogWithTitleSlice';
-import {setId} from '../redux/editIndustrySlice/editIndustrySlice';
 
 interface IProps {
   id: number;
@@ -20,8 +19,7 @@ const IndustryRow = (props: IProps) => {
   const dispatch = useAppDispatch();
 
   const handleUpdateClick = () => {
-    dispatch(setShow('Редактирование индустрии'));
-    dispatch(setId(id));
+    dispatch(setShow({title: 'Редактирование индустрии', id: id}));
   };
 
   const handleDeleteClick = () => {
