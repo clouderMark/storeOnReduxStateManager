@@ -111,3 +111,12 @@ export interface ISubscribe extends IId {
   email: string;
   updatedAt: string;
 }
+
+export interface IParagraphs extends IFilteredParagraphs {
+  unique: string;
+}
+
+export interface IFilteredParagraphs {
+  id: null | number;
+  value: string;
+}

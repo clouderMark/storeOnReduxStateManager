@@ -3,7 +3,7 @@ import {Box, Button, Card, Container, TextField, Typography} from '@mui/material
 import {Link, useLocation, useNavigate} from 'react-router-dom';
 import {EPath} from '../enums/EPath';
 import {useAppDispatch, useAppSelector} from '../redux/hooks';
-import {login, selectUser} from '../redux/userSlice';
+import {selectUser} from '../redux/userSlice';
 import {useLoginUserMutation, useSignupUserMutation} from '../redux/userApi';
 import {showAlert} from '../redux/alertSlice';
 
@@ -11,9 +11,9 @@ const Login = () => {
   const {isAuth, isAdmin} = useAppSelector(selectUser);
   const navigate = useNavigate();
   const isLogin = useLocation().pathname === EPath.Login;
-  const [loginUser, {data: loginData, isSuccess: isLoginSuccess, isError: isLoginError, error: loginError}] =
+  const [loginUser, {isError: isLoginError, error: loginError}] =
     useLoginUserMutation();
-  const [signupUser, {data: signupData, isSuccess: isRegisterSuccess, isError: isRegisterError, error: registerError}] =
+  const [signupUser, {isError: isRegisterError, error: registerError}] =
     useSignupUserMutation();
   const dispatch = useAppDispatch();
 
@@ -44,16 +44,6 @@ const Login = () => {
       await signupUser({email, password});
     }
   };
-
-  useEffect(() => {
-    if (isLoginSuccess) {
-      dispatch(login({token: loginData!.token}));
-    }
-
-    if (isRegisterSuccess) {
-      dispatch(login({token: signupData!.token}));
-    }
-  }, [isLoginSuccess, isRegisterSuccess]);
 
   return (
     <>

@@ -7,6 +7,9 @@ import {basketApi} from './basketApi';
 import {basketSlice} from './basketSlice';
 import {catalogSlice} from './catalogSlice';
 import {catalogApi} from './catalogApi';
+import {editIndustrySlice} from './editIndustrySlice/editIndustrySlice';
+import {dialogWithTitleSlice} from './dialogWithTitleSlice';
+import {subscriptionApi} from './subscriptionApi';
 
 export const store = configureStore({
   reducer: {
@@ -18,9 +21,18 @@ export const store = configureStore({
     [catalogApi.reducerPath]: catalogApi.reducer,
     alert: alertSlice.reducer,
     loader: loaderSlice.reducer,
+    editIndustry: editIndustrySlice.reducer,
+    dialogWithTitle: dialogWithTitleSlice.reducer,
+    [subscriptionApi.reducerPath]: subscriptionApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(userApi.middleware).concat(basketApi.middleware).concat(catalogApi.middleware),
+    getDefaultMiddleware({
+      serializableCheck: false,
+    })
+      .concat(userApi.middleware)
+      .concat(basketApi.middleware)
+      .concat(catalogApi.middleware)
+      .concat(subscriptionApi.middleware),
 });
 
 export type RootState = ReturnType<typeof store.getState>;

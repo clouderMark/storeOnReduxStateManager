@@ -1,5 +1,8 @@
 import {createSlice} from '@reduxjs/toolkit';
 import type {RootState} from './store';
+import {userApi} from './userApi';
+import {catalogApi} from './catalogApi';
+import {subscriptionApi} from './subscriptionApi';
 
 interface IInitialState {
   isOpen: boolean;
@@ -19,6 +22,45 @@ export const loaderSlice = createSlice({
     closeLoader: (state) => {
       state.isOpen = false;
     },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addMatcher(userApi.endpoints.checkUser.matchPending, (state) => {
+        state.isOpen = true;
+      })
+      .addMatcher(userApi.endpoints.checkUser.matchFulfilled, (state) => {
+        state.isOpen = false;
+      })
+      .addMatcher(userApi.endpoints.checkUser.matchRejected, (state) => {
+        state.isOpen = false;
+      })
+      .addMatcher(catalogApi.endpoints.getNavigation.matchPending, (state) => {
+        state.isOpen = true;
+      })
+      .addMatcher(catalogApi.endpoints.getNavigation.matchFulfilled, (state) => {
+        state.isOpen = false;
+      })
+      .addMatcher(catalogApi.endpoints.getNavigation.matchRejected, (state) => {
+        state.isOpen = false;
+      })
+      .addMatcher(subscriptionApi.endpoints.adminGetAllSubscriptions.matchPending, (state) => {
+        state.isOpen = true;
+      })
+      .addMatcher(subscriptionApi.endpoints.adminGetAllSubscriptions.matchFulfilled, (state) => {
+        state.isOpen = false;
+      })
+      .addMatcher(subscriptionApi.endpoints.adminGetAllSubscriptions.matchRejected, (state) => {
+        state.isOpen = false;
+      })
+      .addMatcher(subscriptionApi.endpoints.adminDeleteSubscription.matchPending, (state) => {
+        state.isOpen = true;
+      })
+      .addMatcher(subscriptionApi.endpoints.adminDeleteSubscription.matchFulfilled, (state) => {
+        state.isOpen = false;
+      })
+      .addMatcher(subscriptionApi.endpoints.adminDeleteSubscription.matchRejected, (state) => {
+        state.isOpen = false;
+      });
   },
 });
 

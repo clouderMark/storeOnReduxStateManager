@@ -1,6 +1,7 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import type {RootState} from './store';
 import {IItem} from '../interfaces/interfaces';
+import {basketApi} from './basketApi';
 
 interface IInitialState {
   items: IItem[];
@@ -15,6 +16,11 @@ export const basketSlice = createSlice({
     setProds: (state, action: PayloadAction<IItem[]>) => {
       state.items = action.payload;
     },
+  },
+  extraReducers: (builder) => {
+    builder.addMatcher(basketApi.endpoints.getBasket.matchFulfilled, (state, action) => {
+      state.items = action.payload.products;
+    });
   },
 });
 

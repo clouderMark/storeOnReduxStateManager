@@ -9,7 +9,7 @@ const AlertLine = () => {
 
   return (
     <Fade in={isOpen}>
-      <Alert severity={type} sx={styles} elevation={6}>
+      <Alert severity={type} sx={[styles, {zIndex: 9999}]} elevation={6}>
         {message}
       </Alert>
     </Fade>
