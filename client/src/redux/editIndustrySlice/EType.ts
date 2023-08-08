@@ -35,4 +35,6 @@ export enum EType {
   opinionImageUrl = 'opinionImageUrl',
   opinionParagraphs = 'opinionParagraphs',
   opinionListItems = 'opinionListItems',
+
+  data = 'data',
 }

@@ -38,4 +38,6 @@ export interface IInitialState {
   [EType.opinionImageUrl]: string;
   [EType.opinionParagraphs]: IParagraphs[];
   [EType.opinionListItems]: IParagraphs[];
+
+  [EType.data]: FormData | undefined;
 }

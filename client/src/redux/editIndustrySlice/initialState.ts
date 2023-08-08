@@ -37,4 +37,6 @@ export const initialState: IInitialState = {
   [EType.opinionImageUrl]: '',
   [EType.opinionParagraphs]: [],
   [EType.opinionListItems]: [],
+
+  [EType.data]: undefined,
 };

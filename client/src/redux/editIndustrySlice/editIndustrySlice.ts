@@ -25,8 +25,59 @@ export const editIndustrySlice = createSlice({
       state[EType.name] = action.payload;
       state[EType.valid] = null;
     },
-    checkValidAndIfIsTrueSubmit: (state) => {
+    checkValidAndIfIsTrueComposeData: (state) => {
       state[EType.valid] = state[EType.name].trim() !== '';
+
+      if (state[EType.valid]) {
+        state[EType.data] = new FormData();
+        state[EType.data].append(EType.name, state[EType.name].trim());
+        state[EType.data].append(EType.title, state[EType.title].trim());
+        if (state[EType.cardImage]) {
+          state[EType.data].append(EType.cardImage, state[EType.cardImage], state[EType.cardImage].name);
+        }
+
+        if (state[EType.headerImage]) {
+          state[EType.data].append(EType.headerImage, state[EType.headerImage], state[EType.headerImage].name);
+        }
+
+        if (state[EType.sliderImage]) {
+          state[EType.data].append(EType.sliderImage, state[EType.sliderImage], state[EType.sliderImage].name);
+        }
+
+        if (state[EType.paragraphs].length) {
+          const items = state[EType.paragraphs].map((el) => ({id: el.id, value: el.value}));
+
+          if (items.length) {
+            state[EType.data].append(EType.paragraphs, JSON.stringify(items));
+          }
+        }
+
+        state[EType.data].append(EType.opinionTitle, state[EType.opinionTitle].trim());
+        state[EType.data].append(EType.opinionListTitle, state[EType.opinionListTitle].trim());
+        state[EType.data].append(EType.opinionName, state[EType.opinionName].trim());
+        state[EType.data].append(EType.opinionPhone, state[EType.opinionPhone].trim());
+        state[EType.data].append(EType.opinionFax, state[EType.opinionFax].trim());
+        state[EType.data].append(EType.opinionEmail, state[EType.opinionEmail].trim());
+        if (state[EType.opinionParagraphs].length) {
+          const items = state[EType.opinionParagraphs].map((el) => ({id: el.id, value: el.value}));
+
+          if (items.length) {
+            state[EType.data].append(EType.opinionParagraphs, JSON.stringify(items));
+          }
+        }
+
+        if (state[EType.opinionListItems].length) {
+          const items = state[EType.opinionListItems].map((el) => ({id: el.id, value: el.value}));
+
+          if (items.length) {
+            state[EType.data].append(EType.opinionListItems, JSON.stringify(items));
+          }
+        }
+
+        if (state[EType.opinionImage]) {
+          state[EType.data].append(EType.opinionImage, state[EType.opinionImage], state[EType.opinionImage].name);
+        }
+      }
     },
     setSliderImage: (state, action: PayloadAction<FileList | null>) => {
       const files = action.payload;
@@ -226,7 +277,7 @@ export const selectEditIndustry = (state: RootState) => state.editIndustry;
 export const {
   setCardImage,
   setName,
-  checkValidAndIfIsTrueSubmit,
+  checkValidAndIfIsTrueComposeData,
   setSliderImage,
   setHeaderImage,
   setTitle,
