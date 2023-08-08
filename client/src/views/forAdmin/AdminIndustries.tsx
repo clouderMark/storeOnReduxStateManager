@@ -1,39 +1,130 @@
-import {Button, Container} from '@mui/material';
+import {ChangeEvent, useEffect, useState} from 'react';
+import {Button, Checkbox, Container, Paper, TableCell, TableRow} from '@mui/material';
 import {areaCells} from '../../components/TableCells/cells';
 import {Board} from '../../components/Board';
 import TableCells from '../../components/TableCells/TableCells';
-import {useGetNavigationQuery} from '../../redux/catalogApi';
-import {useAppDispatch} from '../../redux/hooks';
+import {useDeleteIndustryMutation, useGetNavigationQuery} from '../../redux/catalogApi';
+import {useAppDispatch, useAppSelector} from '../../redux/hooks';
 import IndustryRow from '../../components/IndustryRow';
 import EditIndustry from '../../components/EditIndustry/EditIndustry';
 import {setShow} from '../../redux/dialogWithTitleSlice';
+import TableToolbar from '../../components/TableToolbar';
+import {selectUser} from '../../redux/userSlice';
+import {showAlert} from '../../redux/alertSlice';
 
 const AdminIndustries = () => {
   const dispatch = useAppDispatch();
+  const [deleteItem, {data: deleteData, isSuccess: isDeleteSuccess, isError: isDeleteError, error: deleteError}] =
+    useDeleteIndustryMutation();
+  const {token} = useAppSelector(selectUser);
   const {data, isSuccess} = useGetNavigationQuery();
+  const [selected, setSelected] = useState<readonly number[]>([]);
 
   const handleCreateClick = () => {
     dispatch(setShow({title: 'Создание индустрии'}));
   };
 
+  const handleDeleteClick = async () => {
+    if (token) {
+      selected.forEach((el) => {
+        deleteItem({token, id: el});
+      });
+    }
+
+    setSelected([]);
+  };
+
+  useEffect(() => {
+    if (isDeleteSuccess && deleteData) {
+      dispatch(showAlert({message: 'Выбранные индустрии удалены', statusCode: 200}));
+    }
+  }, [isDeleteSuccess]);
+
+  useEffect(() => {
+    if (isDeleteError && 'data' in deleteError!) {
+      dispatch(showAlert({message: deleteError.data.message, statusCode: deleteError.status}));
+    }
+  }, [isDeleteError]);
+
+  const onSelectAllClick = (event: ChangeEvent<HTMLInputElement>) => {
+    if (event.target.checked && data?.industries) {
+      const newSelected = data.industries.map((n) => n.id);
+
+      setSelected(newSelected);
+
+      return;
+    }
+
+    setSelected([]);
+  };
+
+  const handleClick = (id: number) => {
+    const selectedIndex = selected.indexOf(id);
+    let newSelected: readonly number[] = [];
+
+    if (selectedIndex === -1) {
+      newSelected = [...selected, id];
+    } else if (selectedIndex === 0) {
+      newSelected = [...selected.slice(1)];
+    } else if (selectedIndex === selected.length - 1) {
+      newSelected = selected.slice(0, -1);
+    } else if (selectedIndex > 0) {
+      newSelected = [...selected.slice(0, selectedIndex), ...selected.slice(selectedIndex + 1)];
+    }
+
+    setSelected(newSelected);
+  };
+
+  const isSelected = (id: number) => selected.indexOf(id) !== -1;
+
   return (
     <>
       <Container maxWidth={false}>
-        <Button variant="outlined" onClick={handleCreateClick} sx={{mt: 3}}>
-          Создать индустрию
-        </Button>
-        {isSuccess ? (
-          <Board
-            tableHeadCells={<TableCells cells={areaCells} />}
-            tableBodyCells={
-              <>
-                {data.industries.map((row) => (
-                  <IndustryRow key={row.id} id={row.id} name={row.name} />
-                ))}
-              </>
+        <Paper sx={{width: '100%', mb: 2}}>
+          <TableToolbar
+            numSelected={selected.length}
+            showWhenIsNotSelected={
+              <Button variant="outlined" onClick={handleCreateClick}>
+                Создать индустрию
+              </Button>
             }
+            handleDeleteClick={handleDeleteClick}
           />
-        ) : null}
+          {isSuccess ? (
+            <Board
+              tableHeadCells={
+                <>
+                  <TableCell>
+                    <Checkbox color="primary" onChange={onSelectAllClick} checked={Boolean(selected.length)} />
+                  </TableCell>
+                  <TableCells cells={areaCells} />
+                </>
+              }
+              tableBodyCells={
+                <>
+                  {data.industries.map((row) => {
+                    const isItemSelected = isSelected(row.id);
+
+                    return (
+                      <TableRow
+                        hover
+                        key={row.id}
+                        selected={isItemSelected}
+                        role="checkbox"
+                        onClick={() => handleClick(row.id)}
+                      >
+                        <TableCell>
+                          <Checkbox color="primary" checked={isItemSelected} />
+                        </TableCell>
+                        <IndustryRow id={row.id} name={row.name} />
+                      </TableRow>
+                    );
+                  })}
+                </>
+              }
+            />
+          ) : null}
+        </Paper>
       </Container>
       <EditIndustry />
     </>

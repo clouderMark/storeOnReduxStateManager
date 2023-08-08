@@ -1,5 +1,5 @@
 import {useEffect} from 'react';
-import {Button, TableCell, TableRow} from '@mui/material';
+import {Button, TableCell} from '@mui/material';
 import {useDeleteIndustryMutation} from '../redux/catalogApi';
 import {useAppDispatch, useAppSelector} from '../redux/hooks';
 import {selectUser} from '../redux/userSlice';
@@ -41,7 +41,7 @@ const IndustryRow = (props: IProps) => {
   }, [isDeleteError]);
 
   return (
-    <TableRow hover>
+    <>
       <TableCell>{name}</TableCell>
       <TableCell>
         <Button variant="outlined" color="success" onClick={handleUpdateClick}>
@@ -53,7 +53,7 @@ const IndustryRow = (props: IProps) => {
           Удалить
         </Button>
       </TableCell>
-    </TableRow>
+    </>
   );
 };
 
