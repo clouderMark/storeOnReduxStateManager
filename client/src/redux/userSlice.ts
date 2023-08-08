@@ -1,6 +1,7 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import jwtDecode from 'jwt-decode';
 import type {RootState} from './store';
+import {userApi} from './userApi';
 
 interface IInitialState {
   id: number | null;
@@ -51,6 +52,54 @@ export const userSlice = createSlice({
 
       state.token = token;
     },
+  },
+
+  extraReducers: (builder) => {
+    builder
+      .addMatcher(userApi.endpoints.checkUser.matchFulfilled, (state, {payload}) => {
+        const {token} = payload;
+
+        const user = jwtDecode(token) as IRegistration;
+
+        localStorage.setItem('token', token);
+
+        state.id = user.id;
+        state.email = user.email;
+        state.isAuth = true;
+        state.isAdmin = user.role === 'ADMIN';
+        state.token = token;
+      })
+      .addMatcher(userApi.endpoints.checkUser.matchRejected, () => {
+        localStorage.removeItem('token');
+
+        return initialState;
+      })
+      .addMatcher(userApi.endpoints.loginUser.matchFulfilled, (state, {payload}) => {
+        const {token} = payload;
+
+        const user = jwtDecode(token) as IRegistration;
+
+        localStorage.setItem('token', token);
+
+        state.id = user.id;
+        state.email = user.email;
+        state.isAuth = true;
+        state.isAdmin = user.role === 'ADMIN';
+        state.token = token;
+      })
+      .addMatcher(userApi.endpoints.signupUser.matchFulfilled, (state, {payload}) => {
+        const {token} = payload;
+
+        const user = jwtDecode(token) as IRegistration;
+
+        localStorage.setItem('token', token);
+
+        state.id = user.id;
+        state.email = user.email;
+        state.isAuth = true;
+        state.isAdmin = user.role === 'ADMIN';
+        state.token = token;
+      });
   },
 });
 

@@ -6,6 +6,15 @@ interface IData {
   token?: string;
 }
 
+interface IUpdateData extends IData {
+  id: number;
+}
+
+interface IIdToken {
+  id: number;
+  token: string;
+}
+
 interface IReqProds {
   industryId: number[] | null;
   solutionId: number[] | null;
@@ -16,8 +25,10 @@ interface IReqProds {
 
 const BASE_URL = process.env.REACT_APP_API_URL;
 
+// prettier-ignore
 export const catalogApi = createApi({
   reducerPath: 'catalogApi',
+  tagTypes: ['Navigation'],
   baseQuery: fetchBaseQuery({
     baseUrl: `${BASE_URL}`,
     credentials: 'include',
@@ -28,19 +39,46 @@ export const catalogApi = createApi({
         url: 'navigation/getall',
         method: 'GET',
       }),
+      providesTags: (result) => (
+        result
+          ?
+          [...[
+            ...result.industries,
+            ...result.solutions,
+            ...result.subIndustries,
+          ].map(({id}) => ({type: 'Navigation' as const, id})), 'Navigation']
+          :
+          ['Navigation']
+      ),
     }),
-    createIndustry: builder.query<IAreaResponse, IData>({
+
+    createIndustry: builder.mutation<IAreaResponse, IData>({
       query: (data) => {
         const req: FetchArgs = {
           url: '/industry/create',
           method: 'POST',
-          body: {...data.body},
+          body: data.body,
         };
 
         if (data.token) req.headers = {authorization: `Bearer ${data.token}`};
 
         return req;
       },
+      invalidatesTags: ['Navigation'],
+    }),
+    updateIndystry: builder.mutation<IAreaResponse[], IUpdateData>({
+      query: (data) => {
+        const req: FetchArgs = {
+          url: `/industry/update/${data.id}`,
+          method: 'PUT',
+          body: data.body,
+        };
+
+        if (data.token) req.headers = {authorization: `Bearer ${data.token}`};
+
+        return req;
+      },
+      invalidatesTags: ['Navigation'],
     }),
     getIndustries: builder.query<IAreaResponse[], void>({
       query: () => ({
@@ -48,6 +86,21 @@ export const catalogApi = createApi({
         method: 'GET',
       }),
     }),
+    getIndustry: builder.mutation<IAreaResponse, number>({
+      query: (id) => ({
+        url: `/industry/getone/${id}`,
+        method: 'GET',
+      }),
+    }),
+    deleteIndustry: builder.mutation<IAreaResponse, IIdToken>({
+      query: (data) => ({
+        url: `/industry/delete/${data.id}`,
+        method: 'DELETE',
+        headers: {authorization: `Bearer ${data.token}`},
+      }),
+      invalidatesTags: ['Navigation'],
+    }),
+
     getSubIndustries: builder.query<IAreaResponse[], void>({
       query: () => ({
         url: '/subindustry/getall',
@@ -92,8 +145,13 @@ export const catalogApi = createApi({
 
 export const {
   useGetNavigationQuery,
-  useCreateIndustryQuery,
+
+  useCreateIndustryMutation,
+  useUpdateIndystryMutation,
+  useDeleteIndustryMutation,
   useGetIndustriesQuery,
+  useGetIndustryMutation,
+
   useGetSubIndustriesQuery,
   useGetSolutionsQuery,
   useGetAreasQuery,

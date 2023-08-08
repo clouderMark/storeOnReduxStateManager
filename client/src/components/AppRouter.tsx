@@ -11,6 +11,8 @@ import Login from '../views/Login';
 import NotFound from '../views/NotFound';
 import Admin from '../views/forAdmin/Admin/Admin';
 import User from '../views/User';
+import AdminSubscriptions from '../views/forAdmin/AdminSubscriptions';
+import AdminIndustries from '../views/forAdmin/AdminIndustries';
 
 enum ERoute {
   Path = 'path',
@@ -34,6 +36,8 @@ const authRoutes: IRoute[] = [
 
 const adminRoutes: IRoute[] = [
   {[ERoute.Path]: EPath.Admin, [ERoute.Component]: Admin},
+  {[ERoute.Path]: EPath.AdminSubscriptions, [ERoute.Component]: AdminSubscriptions},
+  {[ERoute.Path]: EPath.AdminIndustries, [ERoute.Component]: AdminIndustries},
 ];
 
 const AppRouter = () => {

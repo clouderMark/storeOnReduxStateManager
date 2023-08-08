@@ -105,3 +105,18 @@ export interface INavigation {
   subIndustries: IIdName[];
   solutions: IIdName[];
 }
+
+export interface ISubscribe extends IId {
+  createdAt: string;
+  email: string;
+  updatedAt: string;
+}
+
+export interface IParagraphs extends IFilteredParagraphs {
+  unique: string;
+}
+
+export interface IFilteredParagraphs {
+  id: null | number;
+  value: string;
+}

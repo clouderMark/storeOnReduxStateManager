@@ -17,7 +17,7 @@ type AlertArg = Omit<IInitialState, 'id' | 'isOpen'> & {
   timeout?: number;
 };
 
-export const handleAlert = createAsyncThunk('alert/set', (arg: AlertArg) => {
+export const showAlert = createAsyncThunk('alert/set', (arg: AlertArg) => {
   const {timeout = 4000} = arg;
 
   return new Promise<void>((resolve) => {
@@ -31,14 +31,14 @@ export const alertSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(handleAlert.pending, (state, action) => {
+      .addCase(showAlert.pending, (state, action) => {
         const {message, statusCode} = action.meta.arg;
 
         state.message = message;
         state.isOpen = true;
         state.statusCode = statusCode;
       })
-      .addCase(handleAlert.fulfilled, () => initialState);
+      .addCase(showAlert.fulfilled, () => initialState);
   },
 });
 
