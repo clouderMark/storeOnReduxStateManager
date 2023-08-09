@@ -1,4 +1,4 @@
-import {useEffect} from 'react';
+import {useEffect, MouseEvent} from 'react';
 import {Button, TableCell} from '@mui/material';
 import {useDeleteIndustryMutation} from '../redux/catalogApi';
 import {useAppDispatch, useAppSelector} from '../redux/hooks';
@@ -18,11 +18,13 @@ const IndustryRow = (props: IProps) => {
     useDeleteIndustryMutation();
   const dispatch = useAppDispatch();
 
-  const handleUpdateClick = () => {
+  const handleUpdateClick = (event: MouseEvent<HTMLElement>) => {
+    event.stopPropagation();
     dispatch(setShow({title: 'Редактирование индустрии', id: id}));
   };
 
-  const handleDeleteClick = () => {
+  const handleDeleteClick = (event: MouseEvent<HTMLElement>) => {
+    event.stopPropagation();
     if (token) {
       deleteItem({id, token});
     }
