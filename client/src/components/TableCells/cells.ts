@@ -15,11 +15,12 @@ export const buttonText = {
   delete: ECell.Delete,
 };
 
-export const areaCells: ICell[] = [
-  {
-    field: 'name',
-    value: ECell.Name,
-  },
+export const nameCell: ICell = {
+  field: 'name',
+  value: ECell.Name,
+};
+
+export const editDeleteCells: ICell[] = [
   {
     field: 'edit',
     value: ECell.Edit,

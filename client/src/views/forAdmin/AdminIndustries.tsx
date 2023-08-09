@@ -1,6 +1,6 @@
 import {ChangeEvent, useEffect, useState} from 'react';
-import {Button, Checkbox, Container, Paper, TableCell, TableRow} from '@mui/material';
-import {areaCells} from '../../components/TableCells/cells';
+import {Button, Checkbox, Container, Paper, TableCell, TableRow, TableSortLabel} from '@mui/material';
+import {editDeleteCells, nameCell} from '../../components/TableCells/cells';
 import {Board} from '../../components/Board';
 import TableCells from '../../components/TableCells/TableCells';
 import {useDeleteIndustryMutation, useGetNavigationQuery} from '../../redux/catalogApi';
@@ -11,6 +11,9 @@ import {setShow} from '../../redux/dialogWithTitleSlice';
 import TableToolbar from '../../components/TableToolbar';
 import {selectUser} from '../../redux/userSlice';
 import {showAlert} from '../../redux/alertSlice';
+import {IIdAndName} from '../../interfaces/interfaces';
+
+type Order = 'asc' | 'desc';
 
 const AdminIndustries = () => {
   const dispatch = useAppDispatch();
@@ -19,6 +22,14 @@ const AdminIndustries = () => {
   const {token} = useAppSelector(selectUser);
   const {data, isSuccess} = useGetNavigationQuery();
   const [selected, setSelected] = useState<readonly number[]>([]);
+  const [order, setOrder] = useState<Order>('asc');
+  const [industries, setIndustries] = useState<IIdAndName[]>();
+
+  useEffect(() => {
+    if (isSuccess) {
+      setIndustries([...data.industries]);
+    }
+  }, [isSuccess]);
 
   const handleCreateClick = () => {
     dispatch(setShow({title: 'Создание индустрии'}));
@@ -77,6 +88,16 @@ const AdminIndustries = () => {
 
   const isSelected = (id: number) => selected.indexOf(id) !== -1;
 
+  const sortHandler = () => {
+    if (industries) {
+      setIndustries(
+        industries.sort((a, b) => (order === 'asc' ? b.name.localeCompare(a.name) : a.name.localeCompare(b.name))),
+      );
+    }
+
+    setOrder(order === 'asc' ? 'desc' : 'asc');
+  };
+
   return (
     <>
       <Container maxWidth={false}>
@@ -90,19 +111,28 @@ const AdminIndustries = () => {
             }
             handleDeleteClick={handleDeleteClick}
           />
-          {isSuccess ? (
+          {industries ? (
             <Board
               tableHeadCells={
                 <>
                   <TableCell>
                     <Checkbox color="primary" onChange={onSelectAllClick} checked={Boolean(selected.length)} />
                   </TableCell>
-                  <TableCells cells={areaCells} />
+                  <TableCell>
+                    <TableSortLabel
+                      active={true}
+                      direction={order}
+                      onClick={() => sortHandler()}
+                    >
+                      {nameCell.value}
+                    </TableSortLabel>
+                  </TableCell>
+                  <TableCells cells={editDeleteCells} />
                 </>
               }
               tableBodyCells={
                 <>
-                  {data.industries.map((row) => {
+                  {industries.map((row) => {
                     const isItemSelected = isSelected(row.id);
 
                     return (
