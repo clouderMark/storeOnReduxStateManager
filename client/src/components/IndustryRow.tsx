@@ -1,5 +1,5 @@
-import {useEffect} from 'react';
-import {Button, TableCell, TableRow} from '@mui/material';
+import {useEffect, MouseEvent} from 'react';
+import {Button, TableCell} from '@mui/material';
 import {useDeleteIndustryMutation} from '../redux/catalogApi';
 import {useAppDispatch, useAppSelector} from '../redux/hooks';
 import {selectUser} from '../redux/userSlice';
@@ -18,11 +18,13 @@ const IndustryRow = (props: IProps) => {
     useDeleteIndustryMutation();
   const dispatch = useAppDispatch();
 
-  const handleUpdateClick = () => {
+  const handleUpdateClick = (event: MouseEvent<HTMLElement>) => {
+    event.stopPropagation();
     dispatch(setShow({title: 'Редактирование индустрии', id: id}));
   };
 
-  const handleDeleteClick = () => {
+  const handleDeleteClick = (event: MouseEvent<HTMLElement>) => {
+    event.stopPropagation();
     if (token) {
       deleteItem({id, token});
     }
@@ -41,7 +43,7 @@ const IndustryRow = (props: IProps) => {
   }, [isDeleteError]);
 
   return (
-    <TableRow hover>
+    <>
       <TableCell>{name}</TableCell>
       <TableCell>
         <Button variant="outlined" color="success" onClick={handleUpdateClick}>
@@ -53,7 +55,7 @@ const IndustryRow = (props: IProps) => {
           Удалить
         </Button>
       </TableCell>
-    </TableRow>
+    </>
   );
 };
 
