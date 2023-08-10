@@ -10,6 +10,7 @@ import {catalogApi} from './catalogApi';
 import {editIndustrySlice} from './editIndustrySlice/editIndustrySlice';
 import {dialogWithTitleSlice} from './dialogWithTitleSlice';
 import {subscriptionApi} from './subscriptionApi';
+import {industriesSlice} from './industriesSlice';
 
 export const store = configureStore({
   reducer: {
@@ -24,6 +25,7 @@ export const store = configureStore({
     editIndustry: editIndustrySlice.reducer,
     dialogWithTitle: dialogWithTitleSlice.reducer,
     [subscriptionApi.reducerPath]: subscriptionApi.reducer,
+    industries: industriesSlice.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
